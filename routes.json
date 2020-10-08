@@ -18,11 +18,13 @@
         },
         {
             "route": "/login",
-            "serve": "/.auth/login/aad"
+            "serve": "/.auth/login/aad",
+            "post_logout_redirect_uri": "/index"
         },
         {
             "route": "/logout",
-            "serve": "/.auth/logout"
+            "serve": "/.auth/logout",
+            "post_logout_redirect_uri": "https://wwww.insight.equinor.com"
         },
         {
             "route": "/authenticated",
@@ -30,10 +32,8 @@
         },
         {
             "route": "/",
-            "serve": "/index.html",
-            "allowedRoles": [
-                "anonymous"
-            ]
+            "serve": "/.auth/login/aad",
+            "post_logout_redirect_uri": "/index"
         },
         {
             "route": "/*",
