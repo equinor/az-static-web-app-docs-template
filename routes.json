@@ -33,7 +33,7 @@
         {
             "route": "/",
             "serve": "/.auth/login/aad",
-            "post_logout_redirect_uri": "/index"
+            "post_logout_redirect_uri": "/index.html"
         },
         {
             "route": "/*",
