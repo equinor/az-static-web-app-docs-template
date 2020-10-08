@@ -5,6 +5,10 @@
             "serve": "/.auth/login/aad"
         },
         {
+            "route": "/authenticated",
+            "allowedRoles": ["authenticated"]
+        },
+        {
             "route": "/.auth/login/github",
             "statusCode": "401"
         },
