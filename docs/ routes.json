@@ -1,4 +1,32 @@
 {
-  "route": "/authenticated",
-  "allowedRoles": ["authenticated"]
+    "routes": [
+        {
+            "route": "/login",
+            "serve": "/.auth/login/aad"
+        },
+        {
+            "route": "/.auth/login/github",
+            "statusCode": "401"
+        },
+        {
+            "route": "/.auth/login/twitter",
+            "statusCode": "401"
+        },
+        {
+            "route": "/.auth/login/facebook",
+            "statusCode": "401"
+        },
+        {
+            "route": "/.auth/login/google",
+            "statusCode": "401"
+        },
+        {
+            "route": "/*",
+            "serve": "/index.html",
+            "allowedRoles": [
+                "reader",
+                "contributor"
+            ]
+        }
+    ]
 }
