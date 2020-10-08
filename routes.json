@@ -18,8 +18,7 @@
         },
         {
             "route": "/login",
-            "serve": "/.auth/login/aad",
-            "post_login_redirect_uri": "/doc_index"
+            "serve": "/.auth/login/aad?post_logout_redirect_uri=doc_index"
         },
         {
             "route": "/logout",
