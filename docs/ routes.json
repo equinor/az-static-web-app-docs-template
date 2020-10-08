@@ -1,0 +1,4 @@
+{
+  "route": "/authenticated",
+  "allowedRoles": ["authenticated"]
+}
