@@ -34,10 +34,8 @@
             "allowedRoles": ["authenticated"]
         },
         {
-            "route": "/*",
-            "allowedRoles": [
-                "reader", "contributer"
-            ]
+            "route": "/reader_role",
+            "allowedRoles": ["reader", "contributer"]
         }
     ]
 }
