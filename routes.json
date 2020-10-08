@@ -1,14 +1,6 @@
 {
     "routes": [
         {
-            "route": "/login",
-            "serve": "/.auth/login/aad"
-        },
-        {
-            "route": "/authenticated",
-            "allowedRoles": ["authenticated"]
-        },
-        {
             "route": "/.auth/login/github",
             "statusCode": "401"
         },
@@ -25,11 +17,28 @@
             "statusCode": "401"
         },
         {
-            "route": "/*",
+            "route": "/login",
+            "serve": "/.auth/login/aad"
+        },
+        {
+            "route": "/logout",
+            "serve": "/.auth/logout"
+        },
+        {
+            "route": "/authenticated",
+            "allowedRoles": ["authenticated"]
+        },
+        {
+            "route": "/",
             "serve": "/index.html",
             "allowedRoles": [
-                "reader",
-                "contributor"
+                "anonymous"
+            ]
+        },
+        {
+            "route": "/*",
+            "allowedRoles": [
+                "reader", "contributer"
             ]
         }
     ]
