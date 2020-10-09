@@ -1,7 +1,21 @@
 # az-static-web-app-docs-template
 This repository contains an example of how you can use Azure Static Web Apps to host of public and private documentation for you projects. It contains an example of how to host Sphinx documentation and limit the access to certain roles. This repository should work with any type of documentation generator that can compile into HTML files.
 
-[Check out the live demo](
+[Check out the live demo here](https://kind-stone-001eb1d03.azurestaticapps.net/)
+
+### How to use
+
+1. Fork this repository
+1. Delete the `.github/` folder containing the old Github Actions setup
+1. [Setup Azure Static Web App in Azure](https://docs.microsoft.com/en-us/azure/static-web-apps/get-started-portal?tabs=vanilla-javascript) and connect it to your forked repository
+  Make sure to set the following values in the portal or in the Github Action file to:
+  ```
+  app_location: "docs/build"
+  api_location: "api"
+  app_artifact_location: ""
+  ```
+4. 
+
 
 ### File contents
 ```
