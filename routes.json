@@ -1,0 +1,41 @@
+{
+    "routes": [
+        {
+            "route": "/.auth/login/github",
+            "statusCode": "401"
+        },
+        {
+            "route": "/.auth/login/twitter",
+            "statusCode": "401"
+        },
+        {
+            "route": "/.auth/login/facebook",
+            "statusCode": "401"
+        },
+        {
+            "route": "/.auth/login/google",
+            "statusCode": "401"
+        },
+        {
+            "route": "/login",
+            "serve": "/.auth/login/aad"
+        },
+        {
+            "route": "/logout",
+            "serve": "/.auth/logout",
+            "post_logout_redirect_uri": "https://wwww.insight.equinor.com"
+        },
+        {
+            "route": "/",
+            "allowedRoles": ["anonymous"]
+        },
+        {
+            "route": "/authenticated",
+            "allowedRoles": ["authenticated"]
+        },
+        {
+            "route": "/reader_role",
+            "allowedRoles": ["reader", "contributer"]
+        }
+    ]
+}
