@@ -1,21 +1,49 @@
 # az-static-web-app-docs-template
 This repository contains an example of how you can use Azure Static Web Apps to host of public and private documentation for you projects. It contains an example of how to host Sphinx documentation and limit the access to certain roles. This repository should work with any type of documentation generator that can compile into HTML files.
 
-[Check out the live demo here](https://kind-stone-001eb1d03.azurestaticapps.net/)
+[Check out the live demo here](https://brave-tree-035ee0c03.azurestaticapps.net/)
 
 ### How to use
 
-1. Fork this repository
+1. Fork this repository or use the template option in Github
 1. Delete the `.github/` folder containing the old Github Actions setup
-1. [Setup Azure Static Web App in Azure](https://docs.microsoft.com/en-us/azure/static-web-apps/get-started-portal?tabs=vanilla-javascript) and connect it to your forked repository
+1. [Setup Azure Static Web App in Azure](https://docs.microsoft.com/en-us/azure/static-web-apps/get-started-portal?tabs=vanilla-javascript) and connect it to your forked repository.
+
   Make sure to set the following values in the portal or in the Github Action file to:
   ```
   app_location: "docs/build"
   api_location: "api"
   app_artifact_location: ""
   ```
-4. 
+4. A Github Actions workflow file should automatically be added to your repository after setting up the static app in Azure. Open this workflow file and add the following `routes_location` value to the file, so that it looks like this:
+  ```
+  ...
+  app_location: "docs/build"
+  api_location: "api"
+  app_artifact_location: ""
+  routes_location: "/"   <--- Add this line
+  ...
+  ```
+ 5. Clone the repository to your local machine
+ 5. [Install poetry](https://python-poetry.org/docs/) and then run `poetry install` in the project folder OR use any package manager of your choice and ensure that you have `sphinx` installed
 
+ 6. Make a change in the docs and recompile the documentation by running `poetry run sphinx-build -b html source/sphinx-example build/sphinx-example`
+ 7. Commit the recompiled docs
+ 8. View you web app to view the changes!
+ 
+### Automate compilation of docs
+Azure Static Web Apps does not support building non-Javascript projects and therefore you have compile the docs and commit the HTML directly into your repository before it gets deployed. You might not want to have HTML build files in your work branch. One solution around this is to have a separate `docs` branch that uses Github Actions to automatically build and commit the HTML files to the `docs` branch. To do this, you need to change two things:
+
+1. Change the target branch in the workflow file under `.github/workflows` to target the `docs` branch rather than your main branch
+
+2. Setup a new Github Action workflow that compiles and commits the build files into the `docs` branch:
+
+```
+Template under construction
+```
+
+### Routes and security
+It is very easy to setup authentication with Azure Static Web Apps. The `routes.json` file contains examples of how to setup various access restrictions. Check the [documentation for more info on how this works.](https://docs.microsoft.com/en-us/azure/static-web-apps/routes)
 
 ### File contents
 ```
