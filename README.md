@@ -32,15 +32,44 @@ This repository contains an example of how you can use Azure Static Web Apps to 
  8. View you web app to view the changes!
  
 ### Automate compilation of docs
-Azure Static Web Apps does not support building non-Javascript projects and therefore you have compile the docs and commit the HTML directly into your repository before it gets deployed. You might not want to have HTML build files in your work branch. One solution around this is to have a separate `docs` branch that uses Github Actions to automatically build and commit the HTML files to the `docs` branch. To do this, you need to change two things:
+Azure Static Web Apps does not support building non-Javascript projects and therefore you have compile the docs before it gets deployed. Github Actions allows us to compile the HTML files before we deploy them to the web app. Doing it this way allows us to delete the build files so that we do not have to have them in the repository. It also ensures that we do not have to run any manual steps to update the documentation. Neat! This also means that we can use almost any type of documentation compiler as long as it is possible to install on the Github Action build server and it compiles to HTML. Nice! For this repository, `sphinx` is used, but it can modified to work with your preferred build tool.
 
-1. Change the target branch in the workflow file under `.github/workflows` to target the `docs` branch rather than your main branch
+To build the `sphinx` docs, we need to add some custom build steps to our workflow app. This should be added just below the first step `actions/checkout@v2`:
 
-2. Setup a new Github Action workflow that compiles and commits the build files into the `docs` branch:
+```yaml
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      
+      # Add custom build steps here 
 
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+          
+      - name: Cache virtual environment
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-poetry-packages
+        with:
+          path: ~/.cache/pypoetry
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/poetry.lock') }}
+          
+      - name: Build install poetry
+        run: |
+          curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
+          echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+          
+      - name: Build docs
+        run: |
+          poetry install
+          poetry run sphinx-build -b html docs/source/sphinx-example docs/build/sphinx-example
+      # -------------------------
 ```
-Template under construction
-```
+
+Have a look at the [workflow file](https://github.com/equinor/az-static-web-app-docs-template/blob/main/.github/workflows/azure-static-web-apps-brave-tree-035ee0c03.yml) to see where the steps should be placed.
 
 ### Routes and security
 It is very easy to setup authentication with Azure Static Web Apps. The `routes.json` file contains examples of how to setup various access restrictions. Check the [documentation for more info on how this works.](https://docs.microsoft.com/en-us/azure/static-web-apps/routes)
