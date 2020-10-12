@@ -34,10 +34,12 @@ jobs:
           path: ~/.cache/pypoetry
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/poetry.lock') }}
           
-      - name: Build sphinx docs
+      - name: Build install poetry
         run: |
           curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
           echo "::add-path::$HOME/.poetry/bin"
+
+      - name: Build docs
           poetry install
           poetry run sphinx-build -b html docs/source/sphinx-example docs/build/sphinx-example
       
