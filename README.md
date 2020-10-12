@@ -74,7 +74,7 @@ Have a look at the [workflow file](https://github.com/equinor/az-static-web-app-
 ### Routes and security
 It is very easy to setup authentication with Azure Static Web Apps. The `routes.json` file contains examples of how to setup various access restrictions. Check the [documentation for more info on how this works.](https://docs.microsoft.com/en-us/azure/static-web-apps/routes)
 
-```json
+```
 {
     "routes": [
         {
