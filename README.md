@@ -1,15 +1,15 @@
 # az-static-web-app-docs-template
-This repository contains an example of how you can use Azure Static Web Apps to host of public and private documentation for you projects. It contains an example of how to host Sphinx documentation and limit the access to certain roles. This repository should work with any type of documentation generator that can compile into HTML files.
+This repository contains an example of how you can use Azure Static Web Apps to host public and private documentation for you projects. It contains an example of how to host Sphinx documentation and limit the access to certain roles. This repository should work with any type of documentation generator that can compile to HTML files.
 
 [Check out the live demo here](https://brave-tree-035ee0c03.azurestaticapps.net/)
 
 ### How to use
 
-1. Fork this repository or use the template option in Github
+1. Fork this repository or click the template button above
 1. Delete the `.github/` folder containing the old Github Actions setup
 1. [Setup Azure Static Web App in Azure](https://docs.microsoft.com/en-us/azure/static-web-apps/get-started-portal?tabs=vanilla-javascript) and connect it to your forked repository.
 
-  Make sure to set the following values in the portal or in the Github Action file to:
+  Make sure to set the following values in the portal or in the Github Actions workflow file to:
   ```
   app_location: "docs/build"
   api_location: "api"
@@ -29,10 +29,10 @@ This repository contains an example of how you can use Azure Static Web Apps to 
 
  6. Make a change in the docs and recompile the documentation by running `poetry run sphinx-build -b html source/sphinx-example build/sphinx-example`
  7. Commit the recompiled docs
- 8. View you web app to view the changes!
+ 8. Visit your web app to view the changes!
  
 ### Automate compilation of docs
-Azure Static Web Apps does not support building non-Javascript projects and therefore you have compile the docs before it gets deployed. Github Actions allows us to compile the HTML files before we deploy them to the web app. Doing it this way allows us to delete the build files so that we do not have to have them in the repository. It also ensures that we do not have to run any manual steps to update the documentation. Neat! This also means that we can use almost any type of documentation compiler as long as it is possible to install on the Github Action build server and it compiles to HTML. Nice! For this repository, `sphinx` is used, but it can modified to work with your preferred build tool.
+Azure Static Web Apps does not support building non-Javascript projects and therefore you have compile the docs before it gets deployed. Thankfully, Github Actions allows us to compile the HTML files before we deploy them to the web app. Doing it in this way allows us to delete the build files, so that we do not have to have them committed into our repository. Furthermore, it ensures that we do not have to run any manual steps to update the documentation. Neat! This also means that we can use almost any type of documentation compiler as long as it is possible to install on the Github Action build server and it can compile to HTML. Nice! For this repository, `sphinx` is used, but it can modified to work with your preferred build tool.
 
 To build the `sphinx` docs, we need to add some custom build steps to our workflow app. This should be added just below the first step `actions/checkout@v2`:
 
