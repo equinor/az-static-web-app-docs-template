@@ -27,7 +27,9 @@ This repository contains an example of how you can use Azure Static Web Apps to 
  5. Clone the repository to your local machine
  5. [Install poetry](https://python-poetry.org/docs/) and then run `poetry install` in the project folder OR use any package manager of your choice and ensure that you have `sphinx` installed
 
- 6. Make a change in the docs and recompile the documentation by running `poetry run sphinx-build -b html source/sphinx-example build/sphinx-example`
+ 6. Depending on which documentation compiler you are using, choose either 1, 2 or both
+    1. Make a change in the docs and recompile the documentation by running `poetry run sphinx-build -b html source/sphinx-example build/sphinx-example`
+    2. Watch changes by running `poetry run mkdocs serve -f docs/source/equinor-example/mkdocs.yml`
  7. Commit the recompiled docs
  8. Visit your web app to view the changes!
  

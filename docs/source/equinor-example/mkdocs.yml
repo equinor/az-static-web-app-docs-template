@@ -1,0 +1,96 @@
+# Project information, do not edit
+site_name:        'Equinor'
+site_description: 'Az static web apps template'
+site_author:      'Equinor'
+site_url:         'https://brave-tree-035ee0c03.azurestaticapps.net/'
+
+
+# Repository, edit to point to appropriate repo
+repo_name: 'equinor/az-static-web-app-docs-template'
+repo_url:  'https://github.com/equinor/az-static-web-app-docs-template'
+edit_uri:  'edit/master/docs/source/equinor-example'
+
+# Copyright, do not edit
+copyright: 'Copyright &copy; 2021 Equinor'
+
+# Configuration, do not edit
+use_directory_urls: true
+theme:
+  name: 'material'
+  language: 'en'
+  palette:
+    primary: 'grey'
+    accent: 'pink'
+  font:
+    text: 'Roboto'
+    code: 'Roboto Mono'
+  features:
+    - navigation.instant
+    - navigation.tabs
+  logo: stylesheets/Equinor_Symbol_Favicon_RED_64x64px.png
+  favicon: stylesheets/Equinor_Symbol_Favicon_RED_32x32px.png
+  icon:
+    repo: fontawesome/brands/github
+extra:
+  social:
+    - icon:  fontawesome/brands/github
+      link:  https://github.com/equinor/az-static-web-app-docs-template
+    - icon:  fontawesome/brands/slack-hash
+      link:  https://equinor.slack.com
+
+# Extensions, do not edit
+markdown_extensions:
+  - attr_list
+  - admonition
+  - codehilite:
+      guess_lang: false
+  - toc:
+      permalink: false
+  - pymdownx.arithmatex
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_div_format
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+
+# To add css
+extra_css:
+  - 'stylesheets/extra.css'
+
+# To support PyMdown
+extra_javascript:
+  - 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'
+
+# Enable search functionality
+plugins:
+  - search:
+      separator: '[\s]+'
+      lang: en
+      prebuild_index: true
+  - git-revision-date
+#  - macros
+# - markdownmermaid
+  - mermaid2
+
+# Main navigation menu, edit to create your sub menu; retain main menu.
+nav:
+  - Getting started:
+    - Introduction:                       README.md
+    - Overview:
+      - Overview:                         get-started/overview.md
+      - Example:                          get-started/example.md

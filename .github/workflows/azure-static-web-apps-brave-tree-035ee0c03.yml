@@ -39,10 +39,17 @@ jobs:
           curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
           echo "$HOME/.poetry/bin" >> $GITHUB_PATH
 
-      - name: Build docs
+      - name: Install packages
         run: |
           poetry install
+
+      - name: Build docs
+        run: |
           poetry run sphinx-build -b html docs/source/sphinx-example docs/build/sphinx-example
+
+      - name: Build Equinor style docs
+        run: |
+          poetry run mkdocs build -f docs/source/equinor-example/mkdocs.yml -d ../../build/equinor-example
       
       # -------------------------
 
