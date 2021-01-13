@@ -1,9 +1,12 @@
-# az-static-web-app-docs-template
-This repository contains an example of how you can use Azure Static Web Apps to host public and private documentation for you projects. It contains an example of how to host Sphinx documentation and limit the access to certain roles. This repository should work with any type of documentation generator that can compile to HTML files.
+# Azure static web apps template
+This repository contains an example of how you can use Azure Static Web Apps to host public and private documentation for you projects. It contains examples of how to host Sphinx/mkdocs documentation and limit the access to certain roles. This repository should work with any type of documentation generator that can compile to HTML files and is not limited to the examples you find in the repo.
 
 [Check out the live demo here](https://brave-tree-035ee0c03.azurestaticapps.net/)
 
+[Find the Github repo here](https://github.com/equinor/az-static-web-app-docs-template)
+
 ### How to use
+This guide uses poetry to manage dependencies and virtual environments, but any package manager should work with some configuration.
 
 1. Fork this repository or click the template button above
 1. Delete the `.github/` folder containing the old Github Actions setup
