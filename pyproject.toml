@@ -7,6 +7,11 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.6"
+mkdocs = "^1.1.2"
+mkdocs-material = "^6.2.3"
+mkdocs-git-revision-date-plugin = "^0.3.1"
+mkdocs-macros-plugin = "^0.5.0"
+mkdocs-mermaid2-plugin = "^0.5.1"
 
 [tool.poetry.dev-dependencies]
 sphinx = "^3.2.1"
