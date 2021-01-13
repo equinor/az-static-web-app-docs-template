@@ -174,4 +174,6 @@ docs/build/
   
 docs/source/sphinx-example/
 docs/build/sphinx-example/ - Source and build folder for the Sphinx example documentation code.
+docs/source/equinor-example/
+docs/build/equinor-example/ - Source and build folder for the mkdocs Equinor example documentation code.
 ```
