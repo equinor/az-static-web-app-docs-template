@@ -3,8 +3,6 @@ This repository contains an example of how you can use Azure Static Web Apps to 
 
 [Check out the live demo here](https://brave-tree-035ee0c03.azurestaticapps.net/)
 
-[Find the Github repo here](https://github.com/equinor/az-static-web-app-docs-template)
-
 ### How to use
 This guide uses poetry to manage dependencies and virtual environments, but any package manager should work with some configuration.
 
