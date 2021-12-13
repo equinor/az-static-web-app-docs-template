@@ -1,29 +1,28 @@
 {
     "routes": [
-        {
+         {
             "route": "/.auth/login/github",
-            "statusCode": "401"
+            "statusCode": 401
         },
         {
             "route": "/.auth/login/twitter",
-            "statusCode": "401"
+            "statusCode": 401
         },
         {
             "route": "/.auth/login/facebook",
-            "statusCode": "401"
+            "statusCode": 401
         },
         {
             "route": "/.auth/login/google",
-            "statusCode": "401"
+            "statusCode": 401
         },
         {
             "route": "/login",
-            "serve": "/.auth/login/aad"
+            "redirect": "/.auth/login/aad"
         },
         {
             "route": "/logout",
-            "serve": "/.auth/logout",
-            "post_logout_redirect_uri": "https://wwww.insight.equinor.com"
+            "redirect": "/.auth/logout"
         },
         {
             "route": "/",
@@ -35,7 +34,21 @@
         },
         {
             "route": "/reader_role",
-            "allowedRoles": ["reader", "contributer"]
+            "allowedRoles": ["reader", "contributor"]
         }
-    ]
+    ],
+    "responseOverrides": {
+        "401": {
+            "redirect": "/login",
+            "statusCode": 302
+        },
+        "403": {
+            "rewrite": "/unauthorized.html"
+        }
+    },
+    "mimeTypes": {
+        ".json": "text/json",
+        ".css": "text/css",
+        ".js": "text/javascript"
+    }
 }
