@@ -1,0 +1,4 @@
+config:
+  azure-native:location: westeurope
+  trading-docs:github-access-token:
+    secure: AAABANCDRQubx3lmp1hAZWnIuXFJa6Z/d71IkXu0FvF72U/ABu7q7v1Io3SWU3TXTWfoPzPtVq6C9Y54F8OZwXc7gpsNaIZV

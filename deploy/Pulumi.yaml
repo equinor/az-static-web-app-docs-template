@@ -1,0 +1,6 @@
+name: trading-docs
+runtime:
+  name: python
+  options:
+    virtualenv: .venv
+description: Trading docs
