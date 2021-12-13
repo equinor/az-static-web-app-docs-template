@@ -1,0 +1,50 @@
+name: Test and formatter check
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build_ci_cd:
+    name: Lint and test
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+        
+    - name: Cache virtual environment
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-poetry-packages
+      with:
+        path: ~/.cache/pypoetry
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/poetry.lock') }}
+        
+    - name: Install Poetry
+      run: |
+        curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
+        echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+        
+    - name:   Install dependencies
+      run:    poetry install
+
+    - name:   Import order check
+      run:    poetry run isort . --check
+
+    - name:   Type check
+      run:    poetry run mypy . --disallow-untyped-defs --ignore-missing-imports
+      
+    - name:   Black check
+      run:    poetry run black . --check
+
+    - name:   PEP8 style check
+      run:    poetry run flake8
+
+    - name: Test and test coverage
+      run: poetry run python -m pytest
