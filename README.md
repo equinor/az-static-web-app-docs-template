@@ -98,11 +98,11 @@ It is very easy to setup authentication with Azure Static Web Apps. The `routes.
         },
         {
             "route": "/login",                      <- Redirect /login to Azure AD login 
-            "serve": "/.auth/login/aad"
+            "redirect": "/.auth/login/aad"
         },
         {
             "route": "/logout",                     <- Redirect /logout to logout url
-            "serve": "/.auth/logout",
+            "redirect": "/.auth/logout",
         },
         {
             "route": "/",                           <- Allow anonymous access to the top level url
@@ -143,11 +143,11 @@ To restrict access to all pages, replace the contents of `routes.json` to the fo
         },
         {
             "route": "/login",                      <- Redirect /login to Azure AD login (still needed to login)
-            "serve": "/.auth/login/aad"
+            "redirect": "/.auth/login/aad"
         },
         {
             "route": "/logout",                     <- Redirect /logout to logout url
-            "serve": "/.auth/logout",
+            "redirect": "/.auth/logout",
         },
         {
             "route": "/*",
@@ -178,3 +178,13 @@ docs/build/sphinx-example/ - Source and build folder for the Sphinx example docu
 docs/source/equinor-example/
 docs/build/equinor-example/ - Source and build folder for the mkdocs Equinor example documentation code.
 ```
+
+### Deploy to Azure
+
+This repo contains code for deploying the static web app to Azure using Pulumi:
+
+1. Install Pulumi
+2. Create a access token in Github with the accesses `repo, workflow, write:packages`
+3. Set the access token with `pulumi config set --secret github-access-token GITHUB_TOKEN
+4. Navigate to `deploy` folder, run `poetry install` and then `poetry run pulumi up` to deploy
+5. The website should now be hosted and available online!
