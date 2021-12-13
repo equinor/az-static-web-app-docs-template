@@ -1,6 +1,6 @@
-name: trading-docs
+name: az-static-web-app-docs-template
 runtime:
   name: python
   options:
     virtualenv: .venv
-description: Trading docs
+description: Azure Static Web App Docs Template
