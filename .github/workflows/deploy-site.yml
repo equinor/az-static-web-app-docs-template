@@ -45,11 +45,11 @@ jobs:
           
       - name: Build main docs
         run: |
-          poetry run sphinx-build -b html docs/source/deprecated-main docs/build/deprecated-main
+          poetry run sphinx-build -b html docs/source/sphinx-example docs/build/sphinx-example
 
       - name: Build docs
         run: |
-          poetry run mkdocs build -f docs/source/trading/mkdocs.yml -d ../../build/trading
+          poetry run mkdocs build -f docs/source/equinor-example/mkdocs.yml -d ../../build/equinor-example
 
       
       # -------------------------
