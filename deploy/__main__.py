@@ -13,7 +13,7 @@ static_site = azure_native.web.StaticSite(
         app_artifact_location="",
         app_location="docs/build",
         github_action_secret_name_override="DEPLOY_TOKEN",
-        skip_github_action_workflow_generation=True
+        skip_github_action_workflow_generation=True,
     ),
     location="West Europe",
     name="az-static-web-app-docs-template",
@@ -25,3 +25,5 @@ static_site = azure_native.web.StaticSite(
         tier="Free",
     ),
 )
+
+pulumi.export("Url", static_site.default_hostname)
