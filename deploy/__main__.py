@@ -3,9 +3,10 @@ import pulumi_azure_native as azure_native
 
 config = pulumi.Config()
 
-resource_group = azure_native.resources.ResourceGroup('az-static-web-app-docs')
+resource_group = azure_native.resources.ResourceGroup("az-static-web-app-docs")
 
-static_site = azure_native.web.StaticSite("staticSite",
+static_site = azure_native.web.StaticSite(
+    "staticSite",
     branch="main",
     build_properties=azure_native.web.StaticSiteBuildPropertiesArgs(
         api_location="api",
@@ -20,4 +21,5 @@ static_site = azure_native.web.StaticSite("staticSite",
     sku=azure_native.web.SkuDescriptionArgs(
         name="Free",
         tier="Free",
-    ))
+    ),
+)
