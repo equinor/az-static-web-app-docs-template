@@ -178,6 +178,4 @@ This repo contains code for deploying the static web app to Azure using Pulumi:
 2. Create a access token in Github with the accesses `repo, workflow, write:packages`
 3. Set the access token with `pulumi config set --secret github-access-token GITHUB_TOKEN
 4. Navigate to `deploy` folder, run `poetry install` and then `poetry run pulumi up` to deploy
-5. The website should now be hosted and available online!*
-
-* Note that this will generate a new Github Action workflow for automated deployment. You probably will have to do some modifications to the `deploy-site.yml` file so that the secret values are correctly set.
+5. The website should now be hosted and available online!
