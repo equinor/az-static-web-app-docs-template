@@ -46,5 +46,5 @@ jobs:
     - name:   PEP8 style check
       run:    poetry run flake8
 
-    - name: Test and test coverage
-      run: poetry run python -m pytest
+    # - name: Test and test coverage
+    #   run: poetry run python -m pytest
