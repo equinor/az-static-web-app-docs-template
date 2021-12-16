@@ -21,9 +21,10 @@ static_site = azure_native.web.StaticSite(
     repository_url="https://github.com/equinor/az-static-web-app-docs-template",
     resource_group_name=resource_group.name,
     sku=azure_native.web.SkuDescriptionArgs(
-        name="Free",
-        tier="Free",
+        name="Standard",
+        tier="Standard",
     ),
 )
+
 
 pulumi.export("Url", static_site.default_hostname)
