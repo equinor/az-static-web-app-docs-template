@@ -18,42 +18,26 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: true
-
-      # Add custom build steps here 
-
+      
       - name: Set up Python 3.8
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
-          
-      - name: Cache virtual environment
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-poetry-packages
+
+      - name: Run image
+        uses: abatilo/actions-poetry@v2.0.0
         with:
-          path: ~/.cache/pypoetry
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/poetry.lock') }}
+          poetry-version: 1.1.13
+
+      - name: Install Poetry
+        run: poetry install
           
-      - name: Build install poetry
-        run: |
-          curl -sSL https://install.python-poetry.org | python3 -
-          echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+      - name: Build docs with Sphinx
+        run: poetry run sphinx-build -b html docs/source/sphinx-example docs/build/sphinx-example
 
-      - name: Install packages
-        run: |
-          poetry install
+      - name: Build docs with MkDocs
+        run: poetry run mkdocs build --config-file docs/mkdocs.yml
           
-      - name: Build main docs
-        run: |
-          poetry run sphinx-build -b html docs/source/sphinx-example docs/build/sphinx-example
-
-      - name: Build docs
-        run: |
-          poetry run mkdocs build -f docs/source/equinor-example/mkdocs.yml -d ../../build/equinor-example
-
-      
-      # -------------------------
-
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
