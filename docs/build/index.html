@@ -1,20 +1,31 @@
-<!doctype html>
+<!DOCTYPE html>
 
 <html lang="en">
-<head>
-  <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8" />
 
-  <title>Docs</title>
+    <title>Docs</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+  </head>
 
+  <body>
+    <h1 class="text-center">Azure static web app template</h1>
 
-</head>
-
-<body>
-    Azure static web app template <br />
-    <a href="/login">Login</a> <br />
-    <a href="/logout">Logout</a> <br />
-    <a href="/doc_index.html">Documentation index</a> <br />
-    <a href="/authenticated.html">Click here to check whether you are logged in</a> <br />
-    <a href="/reader_role.html">Click here to check whether you have been assigned the "reader" role</a> <br />
-</body>
+    <div class="d-grid gap-2 col-6 mx-auto text-center my-2">
+      <a href="/login" class="btn btn-primary">Login</a>
+      <a href="/logout" class="btn btn-danger">Logout</a>
+    </div>
+    <div class="d-grid gap-2 col-6 mx-auto text-center my-2">
+      <a href="/doc_index.html" class="btn btn-info">Documentation examples</a>
+    </div>
+    <div class="d-grid gap-2 col-6 mx-auto text-center my-2">
+      <a href="/authenticated_role.html" class="btn btn-primary my-1">Verify "authenticated" role</a>
+      <a href="/reader_role.html" class="btn btn-primary my-1">Verify "reader"/"contributor" role</a>
+    </div>
+  </body>
 </html>
