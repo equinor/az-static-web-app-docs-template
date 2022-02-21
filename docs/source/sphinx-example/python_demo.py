@@ -10,7 +10,7 @@ class Foo:
     baz = 2
     """Docstring for class attribute Foo.baz."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         #: Doc comment for instance attribute qux.
         self.qux = 3
 
