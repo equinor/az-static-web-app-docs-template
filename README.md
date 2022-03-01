@@ -1,92 +1,124 @@
-# Azure static web apps template
+# Documentation with access control using Azure Static Web Apps \[template\]
 This repository contains an example of how you can use Azure Static Web Apps to host public and private documentation for you projects. It contains examples of how to host Sphinx/MkDocs documentation and limit the access to certain roles. This repository should work with any type of documentation generator that can compile to HTML files and is not limited to the examples you find in the repo.
 
 <!-- Note: Commented out, since the link is not working
 Check out the live demo here](https://brave-tree-035ee0c03.azurestaticapps.net/)
 -->
 
-## How to use
+## Getting started
 This guide uses poetry to manage dependencies and virtual environments, but any package manager should work with some configuration. Please note that you will need the following to complete this setup:
 1. A GitHub-account
 2. An Azure account and subscription
-3. An Azure Resource Group
-4. (Optional) The [Azure Az PowerShell module](https://docs.microsoft.com/en-us/powershell/azure/install-az-ps?view=azps-7.2.0)
-5. (Optional) The [Bicep extension for VS Code](https://docs.microsoft.com/en-us/azure/azure-resource-manager/bicep/install)
 
-### 1. Prepare the repo
+### Prepare the repo
+Fork this repository or click the template button above.
 
-1. Fork this repository or click the template button above
+### Set up the Azure Static Web App
+1. In [Azure Portal](http://www.portal.azure.com), navigate to [Azure Static Web App in Azure](https://docs.microsoft.com/en-us/azure/static-web-apps/get-started-portal?tabs=vanilla-javascript) and create a new resource. Go through the setup wizard and connect it to your forked repository
 
-### 2. Set up the Azure Static Web App
-There are multiple ways of setting up a Static Web App. In this setup we will use a bicep-script that requires that you have installed the [Azure Az PowerShell module](https://docs.microsoft.com/en-us/powershell/azure/install-az-ps?view=azps-7.2.0) and the [Bicep extension for VS Code](https://docs.microsoft.com/en-us/azure/azure-resource-manager/bicep/install).
+<p align="center" style="border:2px; border-style:solid; padding:1em">
+  <img src="img/setup_azure_static_web_app_0.png"/>
+</p>
 
-Alternativly, you can setup the [Azure Static Web App in Azure](https://docs.microsoft.com/en-us/azure/static-web-apps/get-started-portal?tabs=vanilla-javascript) graphical interface in the Azure Portal and connect it to your forked repository. NB! If you follow this approach, make sure to manually delete the `.github/` folder containing the old Github Actions setup
+3. Create Static Web App (image above):
+    1. Select a resource group. If you haven't already created a Resource Group, see the point below
+    2. (Optional) To create a new resource group, click the "Create new"-button underneath the drop-down for selecting resource groups. Alternativly, from the [Azure Portal](http://www.portal.azure.com), go to "Resource Group" and click "Create". Go through the setup wizard to create you resource group.
+    3. Give your Static Web App Resource a descriptive name
+    4. Select a desired region for hosting your resource. For Equinor employees, we normally select the region that is closest to Norway.
+    5. Press the button "Sign in with GitHub" and follow the instructions in the pop-up window.
 
-1. Open PowerShell and navigate to the root folder of the project
-2. Log in to Azure with the command `Connect-AzAccount`
-3. Start the setup wizard by running `.\azure-web-app-deployer\deployment_wizard.ps1`. Most values can be left as their default values, but you need to supply the Github Repo URL and Token.
-4. Go to the Portal > Static Web App Resource > Overview > Manage Deployment Token and copy the token.
-5. Go to you Github repo > Settings > Secrets > Actions and click the button "New repository secret". Name the new secret `DEPLOY_TOKEN` and paste in the token.
+<p align="center" style="border:2px; border-style:solid; padding:1em">
+  <img src="img/setup_azure_static_web_app_1.png"/>
+</p>
 
-### 3. Edit the web pages
+4. Connect to GitHub (image above):
+    1. After completing the GitHub login, use the "organization", "repository" and "branch" drop-down menus to select the repository you forked. In this walkthrough, we connect the wep app to the `main`-branch. If you want to keep a separate branch for built documentation, feel free to do so.
+    2. Select "Custom" in the "Build Presets"-dropdown
+    3. Enter `/api`in the "Api location field, and `/docs/build` in the "Output location" field
+
+5. Finish the setup wizard by clicking the "review + create"-button and then the "Create"-button.
+
+### <a name="under-the-hood"></a>Under-the-hood: What happens now? (optional to read)
+
+1. Your newly created Static Web App has a deployment token which you can view here:
+
+<p align="center" style="border:2px; border-style:solid; padding:1em">
+  <img src="img/setup_azure_static_webapp_deployment_token.png"/>
+</p>
+
+2. First, Azure automatically registrers this token as a secret in your repository, which you can view by visiting your GitHub Repo > Settings > Secrets > Actions. This gives the Web App access to your repo
+3. Second, Azure creates a pull request to your repo which contains a new GitHub Action. This is triggered automatically when anything is pushed to main, and will handle the connection and deployment of content to yout Static Web App. You can view triggered actions by clicking on "Actions" in your GitHub repo. You can view the newly created GitHub Action file in the foled `.\.github\workflows`.
+4. After the GitHub Action has completed, you can visit the URL found on the resource page of your Azure Static Web App. If deployed successfully, you should be welcomed by the following demo page:
+
+<p align="center" style="border:2px; border-style:solid; padding:1em">
+  <img src="img/index_landing_page.png"/>
+</p>
 
 
- 1. Clone the repository to your local machine
- 2. [Install poetry](https://python-poetry.org/docs/) and then run `poetry install` in the project folder OR use any package manager of your choice and ensure that you have `sphinx` and/or `mkdocs` installed.
-    **NB!** If you experience trouble installing poetry (especially if you're an Equinor employee on a Windows), try the following:
+### Automate the compilation of docs
+Azure Static Web Apps does not support building non-Javascript projects and therefore you have to compile the docs before it gets deployed. Thankfully, [Github Actions](https://github.com/features/actions) allows us to build and compile the HTML files as part of the action that deploys them to the web app. Doing it this way allows us to delete the build files, so that we do not have to have them committed into our repository. Furthermore, it ensures that we do not have to run any manual steps to update the documentation. Neat! This also means that we can use almost any type of documentation compiler as long as it is possible to install on the Github Action build server and it can compile to HTML. Nice! For this repository, `sphinx` and `mkdocs` is used, but it can modified to work with your preferred build tool.
+
+To build the docs using `sphinx` and `mkdocs`, we need to add some custom build steps to the workflow file that the Static Web App created during its setup.
+
+1. Clone the repository to your local machine
+2. Locate the workflow file located in `.\.github\workflow`. It typically shares name with the Static Web App and its URL.
+3. Delete the script `.\github\workflows\deploy-site.yml` (you can also delete the `lint-and-format.yml`-sctipt if you don't want it)
+4. Add the following build steps to the workflow file. This should be added just below the first step `actions/checkout@v2`, between line 20 and 21.<br>
+```yaml
+- name: Set up Python 3.8
+  uses: actions/setup-python@v2
+  with:
+        python-version: 3.8
+
+- name: Run image
+  uses: abatilo/actions-poetry@v2.0.0
+  with:
+        poetry-version: 1.1.13
+
+- name: Install Poetry
+  run: poetry install
+    
+- name: Build docs with Sphinx
+  run: poetry run sphinx-build -b html docs/source/sphinx-example docs/build/sphinx-example
+
+- name: Build docs with MkDocs
+  run: poetry run mkdocs build --config-file docs/mkdocs.yml
+```
+4. (Optional) Consider renaming the workflow-file to something more descriptive, like `deploy-site.yml`. This will show up above your workflow when clicking on a GitHub Workflow run.
+5. (Optional) Consider giving the workflow a more descriptive name. This is done by changing the `name`-value in the yml-file. This name shows up in your GitHub Actions, so giving it a descriptive name makes it easier for you to find it there.
+6. (Optional). The workflow-file uses the GitHub-secret twice for its `azure_static_web_apps_api_token`-parameter (it is named something like `secrets.XXX`). If you want to rename this to something more descriptive (like e.g. `secrets.DEPLOYMENT_TOKEN`), copy the deployment token and create a new GitHub Action Secret with the desired name. Use this name in your yml-file. See the [under-the-hood](#under-the-hood)-section for information on how to locate the deployment token and GitHub Secret.
+
+
+## Modifying the documentation
+**Sphinx:**<br>
+Sphinx expects `.rts`-files as default, but can be extended to support a range of different file formats (like e.g. markdown). Locate the example in the `.\docs\sources\sphinx-example`-folder. To add a new pages, create the file and add it to the `index.rst`-file. Then re-build the documantation page by either pushing a new commit or by building it manually (see the next chapter).
+
+**MkDocs**<br>
+MkDocs only supports markdown-files. An example is located in the `.\docs\sources\equinor-example`-folder. To add a new pages, create the file and add it to the `mkdocs.yml`-file. Then re-build the documantation page by either pushing a new commit or by building it manually (see the next chapter).<br>
+**NB!** The `mkdocs.yml` file would normally be placed at the top folder for the documentation files, but is currently placed on level above in this demo to make it easiere to work with two documentation frameworks.
+
+## Building the documentation manually
+1. [Install poetry](https://python-poetry.org/docs/) and then run `poetry install` in the project folder OR use any package manager of your choice and ensure that you have `sphinx` and/or `mkdocs` installed.<br>
+**NB!** If you experience trouble installing poetry (especially if you're an Equinor employee on a Windows), try the following:
+
     1. Don't install Python using the Windows Store. Instead, download and install [Python 3.8](https://www.python.org/downloads/release/python-380/) (others have ewxperienced issues with the MS Store verison, see [here](https://github.com/python-poetry/poetry/issues/1895) and [here](https://github.com/python-poetry/poetry/issues/1587))
+
     2. As an Equinor employee, following the [documentation](https://python-poetry.org/docs/) might result in a socket-error: "socket.gaierror: [Errno 11001] getaddrinfo failed". This is probably a proxy-issue that occurs when you are on the work-network. Try repeating the installation step from a different network (e.g. hotspoting from your phone), or modify the relevant proxies.
+
     3. Despite the Poetry documentation explicitly stating that it add the relevant PATH environment variables for you, this does not happen in all cases. If this becomes an issue, try manually adding `%USERPROFILE%\.poetry\bin`. When this is done, verify that it works by running `poetry --version` in your terminal
+
     4. By default, Poetry creates a virtual environment in `{cache-dir}\virtualenvs` (Windows). If you instead want it to be placed in the same folder as your project, enter the following command in you terminal `poetry config virtualenvs.in-project true`. If you now run `poetry install`, the relevant files should now be placed in your current working directory-
 
- 3. Depending on which documentation compiler you are using, choose either 1, 2 or both. Make a change in the docs and see that is included in your build
+2. Depending on which documentation compiler you are using, choose either 1, 2 or both. Make a change in the docs and see that is included in your build
     - Sphinx:
         1. Recompile the documentation by running `poetry run sphinx-build -b html docs/source/sphinx-example docs/build/sphinx-example`
         2. Open the `index.html`-file inside the `build/sphinx-example`-folder.
     - MkDocs:
         1. Watch changes by running `poetry run mkdocs build --config-file docs/mkdocs.yml`
         2. You can serve the page locally as follows: `poetry run mkdocs serve -f docs/source/equinor-example/mkdocs.yml`
- 4. Commit the recompiled docs
- 5. Visit your web app to view the changes!
  
-## Automate compilation of docs
-Azure Static Web Apps does not support building non-Javascript projects and therefore you have to compile the docs before it gets deployed. Thankfully, [Github Actions](https://github.com/features/actions) allows us to compile the HTML files before we deploy them to the web app. Doing it this way allows us to delete the build files, so that we do not have to have them committed into our repository. Furthermore, it ensures that we do not have to run any manual steps to update the documentation. Neat! This also means that we can use almost any type of documentation compiler as long as it is possible to install on the Github Action build server and it can compile to HTML. Nice! For this repository, `sphinx` and `mkdocs` is used, but it can modified to work with your preferred build tool.
 
-To build the docs using `sphinx` and `mkdocs`, we need to add some custom build steps to our workflow app. This should be added just below the first step `actions/checkout@v2`:
-
-```yaml
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: true
-      
-      # Add custom build steps here 
-
-      - name: Set up Python 3.8
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
-
-      - name: Run image
-        uses: abatilo/actions-poetry@v2.0.0
-        with:
-          poetry-version: 1.1.13
-
-      - name: Install Poetry
-        run: poetry install
-          
-      - name: Build docs with Sphinx
-        run: poetry run sphinx-build -b html docs/source/sphinx-example docs/build/sphinx-example
-
-      - name: Build docs with MkDocs
-        run: poetry run mkdocs build --config-file docs/mkdocs.yml
-```
-
-<!-- NOTE: Removed since the link doesn't work
-Have a look at the [workflow file](https://github.com/equinor/az-static-web-app-docs-template/blob/main/.github/workflows/azure-static-web-apps-brave-tree-035ee0c03.yml) to see where the steps should be placed.
--->
-
-## Routes and security
+## Role management, security and routing
 Authentication with Azure Static Web Apps is [configured](https://docs.microsoft.com/en-us/azure/static-web-apps/configuration) in a `staticwebapp.config.json`-file. The recommended location for the `staticwebapp.config.json` is in the folder set as the app_location in the workflow file. However, the file may be placed in any subfolder within the folder set as the app_location.
 **Note!** `routes.json`, which was previously used to configure routing, is deprecated.
 
