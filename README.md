@@ -6,35 +6,48 @@ Check out the live demo here](https://brave-tree-035ee0c03.azurestaticapps.net/)
 -->
 
 ## How to use
-This guide uses poetry to manage dependencies and virtual environments, but any package manager should work with some configuration.
+This guide uses poetry to manage dependencies and virtual environments, but any package manager should work with some configuration. Please note that you will need the following to complete this setup:
+1. A GitHub-account
+2. An Azure account and subscription
+3. An Azure Resource Group
+4. (Optional) The [Azure Az PowerShell module](https://docs.microsoft.com/en-us/powershell/azure/install-az-ps?view=azps-7.2.0)
+5. (Optional) The [Bicep extension for VS Code](https://docs.microsoft.com/en-us/azure/azure-resource-manager/bicep/install)
+
+### 1. Prepare the repo
 
 1. Fork this repository or click the template button above
-2. Delete the `.github/` folder containing the old Github Actions setup
-3. [Setup Azure Static Web App in Azure](https://docs.microsoft.com/en-us/azure/static-web-apps/get-started-portal?tabs=vanilla-javascript) and connect it to your forked repository.
 
-  Make sure to set the following values in the portal or in the Github Actions workflow file to:
-  ```
-  app_location: "docs/build"
-  api_location: "api"
-  output_location: ""
-  ```
- 4. Clone the repository to your local machine
- 5. [Install poetry](https://python-poetry.org/docs/) and then run `poetry install` in the project folder OR use any package manager of your choice and ensure that you have `sphinx` installed.
+### 2. Set up the Azure Static Web App
+There are multiple ways of setting up a Static Web App. In this setup we will use a bicep-script that requires that you have installed the [Azure Az PowerShell module](https://docs.microsoft.com/en-us/powershell/azure/install-az-ps?view=azps-7.2.0) and the [Bicep extension for VS Code](https://docs.microsoft.com/en-us/azure/azure-resource-manager/bicep/install).
+
+Alternativly, you can setup the [Azure Static Web App in Azure](https://docs.microsoft.com/en-us/azure/static-web-apps/get-started-portal?tabs=vanilla-javascript) graphical interface in the Azure Portal and connect it to your forked repository. NB! If you follow this approach, make sure to manually delete the `.github/` folder containing the old Github Actions setup
+
+1. Open PowerShell and navigate to the root folder of the project
+2. Log in to Azure with the command `Connect-AzAccount`
+3. Start the setup wizard by running `.\azure-web-app-deployer\deployment_wizard.ps1`. Most values can be left as their default values, but you need to supply the Github Repo URL and Token.
+4. Go to the Portal > Static Web App Resource > Overview > Manage Deployment Token and copy the token.
+5. Go to you Github repo > Settings > Secrets > Actions and click the button "New repository secret". Name the new secret `DEPLOY_TOKEN` and paste in the token.
+
+### 3. Edit the web pages
+
+
+ 1. Clone the repository to your local machine
+ 2. [Install poetry](https://python-poetry.org/docs/) and then run `poetry install` in the project folder OR use any package manager of your choice and ensure that you have `sphinx` and/or `mkdocs` installed.
     **NB!** If you experience trouble installing poetry (especially if you're an Equinor employee on a Windows), try the following:
     1. Don't install Python using the Windows Store. Instead, download and install [Python 3.8](https://www.python.org/downloads/release/python-380/) (others have ewxperienced issues with the MS Store verison, see [here](https://github.com/python-poetry/poetry/issues/1895) and [here](https://github.com/python-poetry/poetry/issues/1587))
     2. As an Equinor employee, following the [documentation](https://python-poetry.org/docs/) might result in a socket-error: "socket.gaierror: [Errno 11001] getaddrinfo failed". This is probably a proxy-issue that occurs when you are on the work-network. Try repeating the installation step from a different network (e.g. hotspoting from your phone), or modify the relevant proxies.
     3. Despite the Poetry documentation explicitly stating that it add the relevant PATH environment variables for you, this does not happen in all cases. If this becomes an issue, try manually adding `%USERPROFILE%\.poetry\bin`. When this is done, verify that it works by running `poetry --version` in your terminal
     4. By default, Poetry creates a virtual environment in `{cache-dir}\virtualenvs` (Windows). If you instead want it to be placed in the same folder as your project, enter the following command in you terminal `poetry config virtualenvs.in-project true`. If you now run `poetry install`, the relevant files should now be placed in your current working directory-
 
- 6. Depending on which documentation compiler you are using, choose either 1, 2 or both. Make a change in the docs and see that is included in your build
+ 3. Depending on which documentation compiler you are using, choose either 1, 2 or both. Make a change in the docs and see that is included in your build
     - Sphinx:
         1. Recompile the documentation by running `poetry run sphinx-build -b html docs/source/sphinx-example docs/build/sphinx-example`
         2. Open the `index.html`-file inside the `build/sphinx-example`-folder.
     - MkDocs:
         1. Watch changes by running `poetry run mkdocs build --config-file docs/mkdocs.yml`
         2. You can serve the page locally as follows: `poetry run mkdocs serve -f docs/source/equinor-example/mkdocs.yml`
- 7. Commit the recompiled docs
- 8. Visit your web app to view the changes!
+ 4. Commit the recompiled docs
+ 5. Visit your web app to view the changes!
  
 ## Automate compilation of docs
 Azure Static Web Apps does not support building non-Javascript projects and therefore you have to compile the docs before it gets deployed. Thankfully, [Github Actions](https://github.com/features/actions) allows us to compile the HTML files before we deploy them to the web app. Doing it this way allows us to delete the build files, so that we do not have to have them committed into our repository. Furthermore, it ensures that we do not have to run any manual steps to update the documentation. Neat! This also means that we can use almost any type of documentation compiler as long as it is possible to install on the Github Action build server and it can compile to HTML. Nice! For this repository, `sphinx` and `mkdocs` is used, but it can modified to work with your preferred build tool.
