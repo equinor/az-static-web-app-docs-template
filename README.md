@@ -63,7 +63,13 @@ To build the docs using `sphinx` and `mkdocs`, we need to add some custom build 
 1. Clone the repository to your local machine
 2. Locate the workflow file located in `.\.github\workflow`. It typically shares name with the Static Web App and its URL.
 3. Delete the script `.\github\workflows\deploy-site.yml` (you can also delete the `lint-and-format.yml`-sctipt if you don't want it)
-4. Add the following build steps to the workflow file. This should be added just below the first step `actions/checkout@v2`, between line 20 and 21.<br>
+4. Add the following build steps to the workflow file. This should be added just below the first step (see below), between line 20 and 21.
+```yaml
+- uses: actions/checkout@v2
+        with:
+          submodules: true
+```
+Insert the following steps:
 ```yaml
 - name: Set up Python 3.8
   uses: actions/setup-python@v2
@@ -84,9 +90,9 @@ To build the docs using `sphinx` and `mkdocs`, we need to add some custom build 
 - name: Build docs with MkDocs
   run: poetry run mkdocs build --config-file docs/mkdocs.yml
 ```
-4. (Optional) Consider renaming the workflow-file to something more descriptive, like `deploy-site.yml`. This will show up above your workflow when clicking on a GitHub Workflow run.
-5. (Optional) Consider giving the workflow a more descriptive name. This is done by changing the `name`-value in the yml-file. This name shows up in your GitHub Actions, so giving it a descriptive name makes it easier for you to find it there.
-6. (Optional). The workflow-file uses the GitHub-secret twice for its `azure_static_web_apps_api_token`-parameter (it is named something like `secrets.XXX`). If you want to rename this to something more descriptive (like e.g. `secrets.DEPLOYMENT_TOKEN`), copy the deployment token and create a new GitHub Action Secret with the desired name. Use this name in your yml-file. See the [under-the-hood](#under-the-hood)-section for information on how to locate the deployment token and GitHub Secret.
+5. (Optional) Consider renaming the workflow-file to something more descriptive, like `deploy-site.yml`. This will show up above your workflow when clicking on a GitHub Workflow run.
+6. (Optional) Consider giving the workflow a more descriptive name. This is done by changing the `name`-value in the yml-file. This name shows up in your GitHub Actions, so giving it a descriptive name makes it easier for you to find it there.
+7. (Optional). The workflow-file uses the GitHub-secret twice for its `azure_static_web_apps_api_token`-parameter (it is named something like `secrets.XXX`). If you want to rename this to something more descriptive (like e.g. `secrets.DEPLOYMENT_TOKEN`), copy the deployment token and create a new GitHub Action Secret with the desired name. Use this name in your yml-file. See the [under-the-hood](#under-the-hood)-section for information on how to locate the deployment token and GitHub Secret.
 
 
 ## Modifying the documentation
