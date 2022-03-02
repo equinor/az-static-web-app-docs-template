@@ -1,7 +1,7 @@
 # Documentation with access control using Azure Static Web Apps \[template\]
 This repository contains an example of how you can use Azure Static Web Apps to host public and private documentation for you projects. It contains examples of how to host Sphinx/MkDocs documentation and limit the access to certain roles. This repository should work with any type of documentation generator that can compile to HTML files and is not limited to the examples you find in the repo.
 
-Check out the live demo [here](https://red-field-01d6e5103.1.azurestaticapps.net)
+Check out the live demo [here](https://orange-cliff-019eb8803.1.azurestaticapps.net)
 
 ## Getting started
 This guide uses poetry to manage dependencies and virtual environments, but any package manager should work with some configuration. Please note that you will need the following to complete this setup:
