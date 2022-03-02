@@ -12,5 +12,3 @@ This is a welcom page. Click any of the links to view example documentation.
    usage
    restructuredtext_cheatsheet
    markdown_example
-
-.. class:: Noodle
