@@ -26,7 +26,7 @@
         },
         {
             "route": "/reader_role.html",
-            "allowedRoles": ["reader"]  // Limit /reader_role access to only users that have been assigned the role "reader" or "contributer
+            "allowedRoles": ["reader"]  // Limit /reader_role access to only users that have been assigned the role "reader"
         },
         {
             "route": "/authenticated_role.html",
@@ -36,5 +36,33 @@
             "route": "/index.html",
             "allowedRoles": ["anonymous"]  // Allow anonymous access to the top level url
         }
-    ]
+    ],
+    "responseOverrides": {
+        "401": {
+            "redirect": "/.auth/login/aad?post_login_redirect_uri=.referrer",
+            "statusCode": 302
+        },
+        "403": {
+            "rewrite": "/unauthorized.html"
+        }
+    },
+    "mimeTypes": {
+        ".json": "text/json",
+        ".css": "text/css",
+        ".js": "text/javascript"
+    },
+    "globalHeaders": {
+        "Content-Security-Policy": "default-src 'self'; connect-src https://spa-equ-agw.kanari.com:9999; font-src https://cdn.jsdelivr.net; script-src 'self' 'unsafe-inline' *.kanari.com:9999; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css; img-src 'self' *.equinor.com"
+    },
+    "auth": {
+        "identityProviders": {
+            "azureActiveDirectory": {
+                "registration": {
+                    "openIdIssuer": "https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/v2.0",
+                    "clientIdSettingName": "AAD_CLIENT_ID",
+                    "clientSecretSettingName": "AAD_CLIENT_SECRET"
+                }
+            }
+        }
+    }
 }
