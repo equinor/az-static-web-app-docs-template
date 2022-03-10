@@ -1,7 +1,7 @@
 # Documentation with access control using Azure Static Web Apps \[template\]
 This repository contains an example of how you can use Azure Static Web Apps to host public and private documentation for you projects. It contains examples of how to host Sphinx/MkDocs documentation and limit the access to certain roles. This repository should work with any type of documentation generator that can compile to HTML files and is not limited to the examples you find in the repo.
 
-Check out the live demo [here](https://orange-cliff-019eb8803.1.azurestaticapps.net)
+Check out the live demo [here](https://red-field-01d6e5103.1.azurestaticapps.net)
 
 ## Getting started
 This guide uses poetry to manage dependencies and virtual environments, but any package manager should work with some configuration. Please note that you will need the following to complete this setup:
@@ -13,12 +13,7 @@ Fork this repository or click the template button above.
 
 ### Set up the Azure Static Web App
 1. In [Azure Portal](http://www.portal.azure.com), navigate to [Azure Static Web App in Azure](https://docs.microsoft.com/en-us/azure/static-web-apps/get-started-portal?tabs=vanilla-javascript) and create a new resource. Go through the setup wizard and connect it to your forked repository
-
-<p align="center" style="border:2px; border-style:solid; padding:1em">
-  <img src="img/setup_azure_static_web_app_0.png"/>
-</p>
-
-3. Create Static Web App (image above):
+2. Create Static Web App (image below):
     1. Select a resource group. If you haven't already created a Resource Group, see the point below
     2. (Optional) To create a new resource group, click the "Create new"-button underneath the drop-down for selecting resource groups. Alternativly, from the [Azure Portal](http://www.portal.azure.com), go to "Resource Group" and click "Create". Go through the setup wizard to create you resource group.
     3. Give your Static Web App Resource a descriptive name
@@ -26,25 +21,29 @@ Fork this repository or click the template button above.
     5. Press the button "Sign in with GitHub" and follow the instructions in the pop-up window.
 
 <p align="center" style="border:2px; border-style:solid; padding:1em">
-  <img src="img/setup_azure_static_web_app_1.png"/>
+  <img src="img/setup_azure_static_web_app_0.png"/>
 </p>
 
-4. Connect to GitHub (image above):
+3. Connect to GitHub (image below):
     1. After completing the GitHub login, use the "organization", "repository" and "branch" drop-down menus to select the repository you forked. In this walkthrough, we connect the wep app to the `main`-branch. If you want to keep a separate branch for built documentation, feel free to do so.
     2. Select "Custom" in the "Build Presets"-dropdown
     3. Enter `/api`in the "Api location field, and `/docs/build` in the "Output location" field
 
-5. Finish the setup wizard by clicking the "review + create"-button and then the "Create"-button.
+<p align="center" style="border:2px; border-style:solid; padding:1em">
+  <img src="img/setup_azure_static_web_app_1.png"/>
+</p>
+
+4. Finish the setup wizard by clicking the "review + create"-button and then the "Create"-button.
 
 ### <a name="under-the-hood"></a>Under-the-hood: What happens now? (optional to read)
 
 1. Your newly created Static Web App has a deployment token which you can view here:
+2. First, Azure automatically registrers this token as a secret in your repository, which you can view by visiting your GitHub Repo > Settings > Secrets > Actions. This gives the Web App access to your repo
 
 <p align="center" style="border:2px; border-style:solid; padding:1em">
   <img src="img/setup_azure_static_webapp_deployment_token.png"/>
 </p>
 
-2. First, Azure automatically registrers this token as a secret in your repository, which you can view by visiting your GitHub Repo > Settings > Secrets > Actions. This gives the Web App access to your repo
 3. Second, Azure creates a pull request to your repo which contains a new GitHub Action. This is triggered automatically when anything is pushed to main, and will handle the connection and deployment of content to yout Static Web App. You can view triggered actions by clicking on "Actions" in your GitHub repo. You can view the newly created GitHub Action file in the foled `.\.github\workflows`.
 4. After the GitHub Action has completed, you can visit the URL found on the resource page of your Azure Static Web App. If deployed successfully, you should be welcomed by the following demo page:
 
@@ -61,13 +60,13 @@ To build the docs using `sphinx` and `mkdocs`, we need to add some custom build 
 1. Clone the repository to your local machine
 2. Locate the workflow file located in `.\.github\workflow`. It typically shares name with the Static Web App and its URL.
 3. Delete the script `.\github\workflows\deploy-site.yml` (you can also delete the `lint-and-format.yml`-sctipt if you don't want it)
-4. Add the following build steps to the workflow file. This should be added just below the first step (see below), between line 20 and 21.
+4. Below the following step in the the workflow file...
 ```yaml
 - uses: actions/checkout@v2
         with:
           submodules: true
 ```
-Insert the following steps:
+Insert the following steps (between line 20 and 21):
 ```yaml
 - name: Set up Python 3.8
   uses: actions/setup-python@v2
@@ -90,7 +89,8 @@ Insert the following steps:
 ```
 5. (Optional) Consider renaming the workflow-file to something more descriptive, like `deploy-site.yml`. This will show up above your workflow when clicking on a GitHub Workflow run.
 6. (Optional) Consider giving the workflow a more descriptive name. This is done by changing the `name`-value in the yml-file. This name shows up in your GitHub Actions, so giving it a descriptive name makes it easier for you to find it there.
-7. (Optional). The workflow-file uses the GitHub-secret twice for its `azure_static_web_apps_api_token`-parameter (it is named something like `secrets.XXX`). If you want to rename this to something more descriptive (like e.g. `secrets.DEPLOYMENT_TOKEN`), copy the deployment token and create a new GitHub Action Secret with the desired name. Use this name in your yml-file. See the [under-the-hood](#under-the-hood)-section for information on how to locate the deployment token and GitHub Secret.
+7. (Optional). The workflow-file uses the GitHub-secret twice for its `azure_static_web_apps_api_token`-parameter (it is named something like `secrets.XXX`). If you want to rename this to something more descriptive (like e.g. `secrets.DEPLOYMENT_TOKEN`), copy the deployment token and create a new GitHub Action Secret with the desired name. Use this name in your yml-file. See the [under-the-hood](#under-the-hood)-section for information on how to locate the deployment token and GitHub Secret. You can then delete the old GitHub Action Secret.
+8. Commit and push your changes, and verify that you action finishes successfully.
 
 
 ## Modifying the documentation
@@ -247,6 +247,49 @@ To restrict access to all pages, replace the contents of `routes.json` to the fo
     ]
 }
 ```
+
+### Custom auth for a specific AAD tenant, safely in a key vault
+To achieve a more seamless log-in user experience and be able to assign roles to groups in your organization, we must register the app in Azure Active Directory (AAD).
+1. In Azure Portal, navigate to Azure Active Directory
+2. In the meny to the left, click on "App registrations"
+3. Click on "New registration".
+    - **Note!** If you do not have the correct permission to register a new app, verify that you have the correct priveliges in "Azure AD Privileged Identity Management"
+4. Select a name and an account type.
+    - **Accounts in this organizational directory only**: All user and guest accounts in your directory can use your application or API. *Use this option if your target audience is internal to your organization.*
+    - **Accounts in any organizational directory (Any Azure AD directory - Multitenant)**: All users with a work or school account from Microsoft can use your application or API. This includes schools and businesses that use Office 365. *Use this option if your target audience is business or educational customers and to enable multitenancy.*
+    - **Accounts in any organizational directory (Any Azure AD directory - Multitenant) and personal Microsoft accounts (e.g. Skype, Xbox)**: All users with a work or school, or personal Microsoft account can use your application or API. It includes schools and businesses that use Office 365 as well as personal accounts that are used to sign in to services like Xbox and Skype. *Use this option to target the widest set of Microsoft identities and to enable multitenancy.*
+    - **Personal Microsoft accounts only**: Personal accounts that are used to sign in to services like Xbox and Skype. *Use this option to target the widest set of Microsoft identities.*
+5. In you new app registration, write down the **Application (client) ID**  
+6. Click on "Client credentials: Add a certificate or secret"
+
+<p align="center" style="border:2px; border-style:solid; padding:1em">
+  <img src="img/setup_azure_static_web_app_AAD_register_app.png"/>
+</p>
+
+7. Click on "New client secret" and give it a fitting name
+8. Write down the **secret value**
+9. Navigate to your Static Web App > Configuration
+10. Use the "Add"-button to register the client ID and the client secret separately. Give it a fitting name (this tutorial uses `AAD_CLIENT_ID`and `AAD_CLIENT_SECRET`)
+11. Click the "Save"-button
+
+<p align="center" style="border:2px; border-style:solid; padding:1em">
+  <img src="img/setup_azure_static_web_app_add_client_id_secret.png"/>
+</p>
+
+You can now use AAD to create roles and assign groups to this role
+
+1. Navigate back to "Azure Active Directory" > "App Registrations" > You registration
+2. In the menu, click on "App roles" and "Create app role". Create you desired role(s)
+
+<p align="center" style="border:2px; border-style:solid; padding:1em">
+  <img src="img/setup_azure_static_web_app_AAD_register_app_create_roles.png"/>
+</p>
+
+3. Navigate to "Azure Active Directory" > Enterprise applications" and search for your registered app
+4. Click "Users and groups"
+5. Here you can add individual users and groups to the roles you specified earlier (e.g. reader role)
+
+**Summary:** We have registered our Static Web App in Azure Active Directory, allowing us to use our corporation's authentication when users want to access the content. We have further enabled the ability to assign roles to groups of people, giving us a fast and reliable way of securing that our content is only visible to the right people.
 
 ## File content explanation
 Here is an description of the main files and folders in this project
