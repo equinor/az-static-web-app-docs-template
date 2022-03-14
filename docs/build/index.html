@@ -29,14 +29,13 @@
     </div>
     <pre></pre>
     <script>
-    async function getUserInfo() {
-        const response = await fetch('/.auth/me');
-        const user = await response.json();
-        const pre = document.querySelector('pre');
-        pre.textContent = JSON.stringify(user, null, 2);
-    }
-
-    getUserInfo();
-</script>
+      async function getUserInfo() {
+          const response = await fetch('/.auth/me');
+          const user = await response.json();
+          const pre = document.querySelector('pre');
+          pre.textContent = JSON.stringify(user, null, 2);
+      }
+      getUserInfo();
+    </script>
   </body>
 </html>
