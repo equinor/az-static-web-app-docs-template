@@ -1,6 +1,6 @@
 .venv/
 .DS_Store
-.vscode/
+
 .python-version
 __pycache__/
 .mypy_cache/
