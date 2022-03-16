@@ -37,15 +37,15 @@
             "allowedRoles": ["anonymous"]  // Allow anonymous access to the top level url
         }
     ],
-    "responseOverrides": {
-        "401": {
-            "redirect": "/.auth/login/aad?post_login_redirect_uri=.referrer",
-            "statusCode": 302
-        },
-        "403": {
-            "rewrite": "/unauthorized.html"
-        }
-    },
+    // "responseOverrides": {
+    //     "401": {
+    //         "redirect": "/.auth/login/aad?post_login_redirect_uri=.referrer",
+    //         "statusCode": 302
+    //     },
+    //     "403": {
+    //         "rewrite": "/unauthorized.html"
+    //     }
+    // },
     "mimeTypes": {
         ".json": "text/json",
         ".css": "text/css",
