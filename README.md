@@ -321,7 +321,7 @@ See the [Configure Azure Static Web Apps](https://docs.microsoft.com/en-us/azure
 **Note:** `routes.json`, which was previously used to configure routing, is deprecated.
 
 ## Architecture
-![Architecture](img/architecture.drawio.svg)
+![Architecture](img/architecture.svg)
 
 ## File content explanation
 Here is an description of the main files and folders in this project
