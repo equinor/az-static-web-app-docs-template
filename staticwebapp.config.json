@@ -25,6 +25,10 @@
             "redirect": "/.auth/logout"
         },
         {
+            "route": "/admin_role.html",
+            "allowedRoles": ["admin"]  // Limit /reader_role access to only users that have been assigned the role "admin"
+        },
+        {
             "route": "/reader_role.html",
             "allowedRoles": ["reader"]  // Limit /reader_role access to only users that have been assigned the role "reader"
         },

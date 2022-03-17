@@ -12,7 +12,7 @@ static_site = azure_native.web.StaticSite(
         api_location="api",
         app_artifact_location="",
         app_location="docs/build",
-        github_action_secret_name_override="DEPLOY_TOKEN",
+        github_action_secret_name_override="DEPLOYMENT_TOKEN",
         skip_github_action_workflow_generation=True,
     ),
     location="West Europe",
