@@ -82,7 +82,7 @@ SWAs does not support building non-Javascript projects and therefore you have to
 
 To build the docs using `sphinx` and `mkdocs`, we need to add some custom build steps to the workflow file that the SWA created during its setup. Rather than editing the newly created workflow file, we can use the file that comes with this repo.
 
-1. Navigate to your GitHub Repo > Settings > Secrets > Actions.
+1. Navigate to your GitHub Repo > Settings > Secrets > Actions > Repository secrets.
 2. There should only be one secret called `AZURE_STATIC_WEB_APPS_API_TOKEN_<URL-name>` under "Actions secrets". Delete this secret by pressing "Remove".
 3. Create a new repository secret by clicking "New repository secret" and use the following values:
     - Name: `"DEPLOYMENT_TOKEN"`
