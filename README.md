@@ -61,7 +61,7 @@ This guide uses poetry to manage dependencies and virtual environments, but any 
 
 1. First, Azure automatically registers the **deployment token** as a secret in your repository, which you can view by visiting your **GitHub Repo > Settings > Secrets > Actions**. This gives the Web App access to your repo.
 2. Second, Azure commits a workflow-file to your repo which contains the necessary GitHub Action for deploying the website located in `/docs/build`. This is triggered automatically when anything is pushed to main, and will handle the connection and deployment of content to your SWA.
-    - You can view triggered actions by clicking on "Actions" in your GitHub repo. (**NB!** Some of the triggered actions will fail at this point, but this will be fixed later).
+    - You can view triggered actions by clicking on "Actions" in your GitHub repo. (**NB!** The `deploy-site.yml`-action will fail at this point since we haven't yet created the GitHub secret that it expects. This will be fixed later).
     - You can view the newly created GitHub Action file in the folder `.\.github\workflows`.
 3. After the GitHub Action has completed, you can visit the **URL** found to your SWA. If deployed successfully, you should be welcomed by the following demo page:
 
