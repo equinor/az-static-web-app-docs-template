@@ -61,7 +61,7 @@ This guide uses poetry to manage dependencies and virtual environments, but any 
 
 1. First, Azure automatically registers the **deployment token** as a secret in your repository, which you can view by visiting your **GitHub Repo > Settings > Secrets > Actions**. This gives the Web App access to your repo.
 2. Second, Azure commits a workflow-file to your repo which contains the necessary GitHub Action for deploying the website located in `/docs/build`. This is triggered automatically when anything is pushed to main, and will handle the connection and deployment of content to your SWA.
-    - You can view triggered actions by clicking on "Actions" in your GitHub repo.
+    - You can view triggered actions by clicking on "Actions" in your GitHub repo. (**NB!** Some of the triggered actions will fail at this point, but this will be fixed later).
     - You can view the newly created GitHub Action file in the folder `.\.github\workflows`.
 3. After the GitHub Action has completed, you can visit the **URL** found to your SWA. If deployed successfully, you should be welcomed by the following demo page:
 
@@ -82,8 +82,8 @@ SWAs does not support building non-Javascript projects and therefore you have to
 
 To build the docs using `sphinx` and `mkdocs`, we need to add some custom build steps to the workflow file that the SWA created during its setup. Rather than editing the newly created workflow file, we can use the file that comes with this repo.
 
-1. Navigate to your GitHub Repo > Settings > Secrets > Actions > Repository secrets.
-2. Locate and delete the secret named `AZURE_STATIC_WEB_APPS_API_TOKEN_<URL-name>`. It should be the only one there.
+1. Navigate to your GitHub Repo > Settings > Secrets > Actions.
+2. There should only be one secret called `AZURE_STATIC_WEB_APPS_API_TOKEN_<URL-name>` under "Actions secrets". Delete this secret by pressing "Remove".
 3. Create a new repository secret by clicking "New repository secret" and use the following values:
     - Name: `"DEPLOYMENT_TOKEN"`
     - Value: `deployment token` (output from previous chapter)
@@ -116,7 +116,7 @@ The Github workflow committed by the Static Web app only contains the actions ne
   run: poetry run mkdocs build --config-file docs/mkdocs.yml
 ```
 
-Rather than modifying the workflow-file created by the SWA, we just renamed the github secret token to `DEPLOYMENT_TOKEN` (which is what the `deploy-site.yml`-file expects) and deleted the file created by the SWA. By modifying the secret *before* deleting the file, we ensured that the workflow was not triggered by a new commit before the renaming of teh secret was handled.
+Rather than modifying the workflow-file created by the SWA, we just renamed the github secret token to `DEPLOYMENT_TOKEN` (which is what the `deploy-site.yml`-file expects) and deleted the file created by the SWA. By modifying the secret *before* deleting the file, we ensured that the workflow was not triggered by a new commit before the renaming of the secret was handled.
 
 ### Extra: Editing the documentation
 **Sphinx:**<br>
@@ -147,7 +147,7 @@ MkDocs only supports markdown-files. An example is located in the `.\docs\source
         2. You can serve the page locally as follows: `poetry run mkdocs serve -f docs/source/equinor-example/mkdocs.yml`.
  
 ## Step 4: Set up authentication using Azure Active Directory
-**GOAL:** After this section, the user should be able to click the "login" button and then have access to the content behind the "Verify authenticated role" button. This can be useful if you want to restrict content to employees of your company only.
+**GOAL:** After this section, the user should be able to click the "login" button on the SWA and then have access to the content behind the "Verify authenticated role" button. This can be useful if you want to restrict content to employees of your company only.
 
 For the next two steps, we will follow along with Microsoft's own [tutorial](https://docs.microsoft.com/en-us/azure/static-web-apps/assign-roles-microsoft-graph).
 
@@ -273,7 +273,7 @@ If you instead clicks the `Login`-button, you will be offered to login in via an
 
 The current chapter is based on [this section](https://docs.microsoft.com/en-us/azure/static-web-apps/assign-roles-microsoft-graph#configure-active-directory-authentication) in Microsoft's own documentation.
 
-In the previous chapter, we required that a user logged before having access to the content behind the **Verify "authenticated" role** button. In this chapter, we will generate a custom "reader" role that is required to read the content behind the **Verify "reader" role** button. If a user is not already given the "reader" role, they will still not have access to the content behind the **Verify "reader" role** button, and will be met with the following page:
+In the previous chapter, we required that a user logged in before having access to the content behind the **Verify "authenticated" role** button. In this chapter, we will generate a custom "reader" role that is required to read the content behind the **Verify "reader" role** button. If a user is not already given the "reader" role, they will still not have access to the content behind the **Verify "reader" role** button, and will be met with the following page:
 
 <p align="center" style="border:2px; border-style:solid; padding:1em">
   <img src="img/status_authenticated_not_reader.png"/>
