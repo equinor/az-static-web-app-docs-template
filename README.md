@@ -279,7 +279,7 @@ In the previous chapter, we required that a user logged in before having access 
   <img src="img/status_authenticated_not_reader.png"/>
 </p>
 
-To achieve this, the template repo contains a serverless function (*api/GetRoles/index.js*) that queries Microsoft Graph to determine if a user is in a pre-defined group. Based on the user's group memberships, the function assigns custom roles to the user. The application is configured to restrict certain routes based on these custom roles.
+To achieve this, the template repo contains a serverless function (*api/GetRoles/index.js*) that queries Microsoft Graph to determine if a user is in a pre-defined group. Based on the user's group memberships, the function assigns custom roles to the user. The application is configured to restrict certain routes based on these custom roles. You can read more about Azure Functions in SWA [here](https://docs.microsoft.com/en-us/azure/static-web-apps/add-api?tabs=vanilla-javascript).
 
 1. In AAD, navigate to "groups" and find a group to which you want to assign the reader role. Write down the **Object Id**.
 
