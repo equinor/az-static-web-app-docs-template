@@ -31,12 +31,10 @@ This guide uses poetry to manage dependencies and virtual environments, but any 
     1. Select a resource group. If you haven't already created a Resource Group, see the point below.
     2. (Optional) To create a new resource group, click the "Create new"-button underneath the drop-down for selecting resource groups. Alternatively, from the [Azure Portal](http://www.portal.azure.com), go to "Resource Group" and click "Create". Go through the setup wizard to create you resource group.
     3. Give your SWA Resource a descriptive name.
-    4. Select a desired region for hosting your resource. If you are part of an organization, they might have a policy for which you should chose.
-    5. Press the button "Sign in with GitHub" and follow the instructions in the pop-up window.
+    4. Hosting plan: If you want to enable custom authentication and follow along for the last steps in this tutorial, you must choose the **Standard** plan type.
+    5. Select a desired region for hosting your resource. If you are part of an organization, they might have a policy for which you should chose.
+    6. Press the button "Sign in with GitHub" and follow the instructions in the pop-up window.
 
-<p align="center" style="border:2px; border-style:solid; padding:1em">
-  <img src="img/setup_azure_static_web_app_0.png", width="800"/>
-</p>
 
 3. Connect to GitHub (image below):
     1. After completing the GitHub login, use the "organization", "repository" and "branch" drop-down menus to select the repository you forked. In this tutorial, we connect the wep app to the `main`-branch. If you want to keep a separate branch for built documentation, feel free to do so.
