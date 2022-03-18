@@ -325,7 +325,14 @@ Here is an description of the main files and folders in this project:
 Project
 └───.github
 |   └───workflows
-|           deploy-site.yml                 - Github Actions workflow for building documentation and deploying the service to Azure
+|           deploy-site.yml                 - Github Action workflow for building documentation and deploying the service to Azure
+|           lint-and-format.yml             - Github Action workflow for linting and validating syntax
+|
+└───api
+|   |   (...)                               - Several config files for the serveless function powered by Azure Function)
+|   └───GetRoles
+|       └───function.json                   - Azure Function config
+|       └───index.js                        - Serverless Function that assigns custom roles to users
 |
 └───docs
 |   └───source                              - Contains source files for documentation.
