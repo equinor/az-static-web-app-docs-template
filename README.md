@@ -82,6 +82,8 @@ SWAs does not support building non-Javascript projects and therefore you have to
 
 To build the docs using `sphinx` and `mkdocs`, we need to add some custom build steps to the workflow file that the SWA created during its setup. Rather than editing the newly created workflow file, we can use the file that comes with this repo.
 
+**NB!** In the next steps we will delete the github action that was created by our SWA, and replace it with the `deploy-site.yml` that already exist in the template repo. However, this will break the link in your SWA's overview page which give a link to the github action it created. Currently, there is no way of updating this link. It will not affect operation, but if you would like to keep this link intact, you should copy the content from `deploy-site.yml` into the newly created yml-file, and delete the `deploy-site.yml`-fil instead.
+
 1. Navigate to your GitHub Repo > Settings > Secrets > Actions > Repository secrets.
 2. Locate and delete the secret named `AZURE_STATIC_WEB_APPS_API_TOKEN_<URL-name>`. It should be the only one there.
 3. Create a new repository secret by clicking "New repository secret" and use the following values:
