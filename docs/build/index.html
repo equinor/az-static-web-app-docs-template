@@ -28,5 +28,16 @@
       <a href="/reader_role.html" class="btn btn-primary my-1">Verify "reader" role</a>
       <a href="/admin_role.html" class="btn btn-primary my-1">Verify "admin" role</a>
     </div>
+    <pre></pre>
+    <script>
+        async function getUserInfo() {
+            const response = await fetch('/.auth/me');
+            const user = await response.json();
+            const pre = document.querySelector('pre');
+            pre.textContent = JSON.stringify(user, null, 2);
+        }
+
+        getUserInfo();
+    </script>
   </body>
 </html>
