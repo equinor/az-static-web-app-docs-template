@@ -1,6 +1,0 @@
-name: az-static-web-app-docs-template
-runtime:
-  name: python
-  options:
-    virtualenv: .venv
-description: Azure Static Web App Docs Template
