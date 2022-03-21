@@ -8,6 +8,7 @@ site_url:         'https://salmon-desert-02c2d9b03.1.azurestaticapps.net/equinor
 # Repository, edit to point to appropriate repo
 repo_name: 'equinor/az-static-web-app-docs-template'
 repo_url:  'https://github.com/equinor/az-static-web-app-docs-template'
+edit_uri:  'edit/main/docs/source/equinor-example'
 
 
 # Source and build destination
