@@ -2,17 +2,16 @@
 site_name:        'Equinor'
 site_description: 'Azure static web apps template'
 site_author:      'Equinor'
-site_url:         'https://brave-tree-035ee0c03.azurestaticapps.net/'
+site_url:         'https://salmon-desert-02c2d9b03.1.azurestaticapps.net/equinor-example/'
 
 
 # Repository, edit to point to appropriate repo
 repo_name: 'equinor/az-static-web-app-docs-template'
 repo_url:  'https://github.com/equinor/az-static-web-app-docs-template'
-edit_uri:  'edit/master/docs/source/equinor-example'
 
 
 # Source and build destination
-docs_dir: 'source/equinor-example/docs'
+docs_dir: 'source/equinor-example'
 site_dir: 'build/equinor-example'
 
 # Copyright, do not edit
