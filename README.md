@@ -24,7 +24,7 @@ This guide uses poetry to manage dependencies and virtual environments, but any 
 2. An Azure account and subscription
 
 ## Step 2: Set up the Azure Static Web App
-**GOAL:** After this section, you will be hosting a demo landing page for our documentation web page.
+> ***Goal:** After this section, you will be hosting a demo landing page for our documentation web page.*
 
 1. Fork this repository or click the template button above.
 2. In [Azure Portal](http://www.portal.azure.com), navigate to [Azure Static Web App in Azure](https://docs.microsoft.com/en-us/azure/static-web-apps/get-started-portal?tabs=vanilla-javascript) and create a new resource. Go through the setup wizard and connect it to your forked repository, as follows:
@@ -74,7 +74,7 @@ Feel free to click the "documentation examples" button and browse the two exampl
 - `YOUR_SITE_URL`
 
 ## Step 3: Automate the compilation of docs
-**GOAL:** After this section, the documentation examples will be built and deployed, making them visible on your wep page. Further, a Github Action workflow will ensure that the documentation automatically re-builds and re-deploys itself when new changes are committed to the branch.
+> ***Goal:** After this section, the documentation examples will be built and deployed, making them visible on your SWA. Further, a Github Action workflow will ensure that the documentation automatically re-builds and re-deploys itself when new changes are committed to the branch.*
 
 SWAs does not support building non-Javascript projects and therefore you have to compile the docs before it gets deployed. Thankfully, [Github Actions](https://github.com/features/actions) allows us to build and compile the HTML files as part of the action that deploys them to the web app. Doing it this way allows us to delete the build files, so that they don't clutter our repository. Neat! Furthermore, it ensures that we do not have to run any manual steps to update the documentation. Double-neat! This also means that we can use almost any type of documentation compiler as long as it is possible to install on the Github Action build server and it can compile to HTML. Triple-neat! For this repository, `sphinx` and `mkdocs` is used, but it can modified to work with your preferred build tool.
 
@@ -118,15 +118,18 @@ The Github workflow committed by the Static Web app only contains the actions ne
 
 Rather than modifying the workflow-file created by the SWA, we just renamed the github secret token to `DEPLOYMENT_TOKEN` (which is what the `deploy-site.yml`-file expects) and deleted the file created by the SWA. By modifying the secret *before* deleting the file, we ensured that the workflow was not triggered by a new commit before the renaming of the secret was handled.
 
-### Extra: Editing the documentation
+### (Optional): Editing the documentation
 **Sphinx:**<br>
 Sphinx expects `.rts`-files as default, but can be extended to support a range of different file formats (like e.g. markdown). Locate the example in the `.\docs\sources\sphinx-example`-folder. To add a new pages, create the file and add it to the `index.rst`-file. Then re-build the documentation page by either pushing a new commit or by building it manually (see the next chapter).
 
 **MkDocs**<br>
 MkDocs only supports markdown-files. An example is located in the `.\docs\sources\equinor-example`-folder. To add a new pages, create the file and add it to the `mkdocs.yml`-file. Then re-build the documentation page by either pushing a new commit or by building it manually (see the next chapter).<br>
+
 **NB!** The `mkdocs.yml` file would normally be placed at the top folder for the documentation files, but is currently placed on level above in this demo to make it easier to work with two documentation frameworks.
 
-### Extra: Building the documentation manually
+**Note:** In the `mkdocs.yml`-file, please update the keys `site_url`, `repo_name` and `repo_url` to match your own project. The builder inserts these links into your page (in the logo and the edit-button)
+
+### (Optional): Building the documentation manually
 1. [Install poetry](https://python-poetry.org/docs/) and then run `poetry install` in the project folder OR use any package manager of your choice and ensure that you have `sphinx` and/or `mkdocs` installed.<br>
 **NB!** If you experience trouble installing poetry (especially if you're an Equinor employee on a Windows), try the following:
 
@@ -147,7 +150,7 @@ MkDocs only supports markdown-files. An example is located in the `.\docs\source
         2. You can serve the page locally as follows: `poetry run mkdocs serve -f docs/source/equinor-example/mkdocs.yml`.
  
 ## Step 4: Set up authentication using Azure Active Directory
-**GOAL:** After this section, the user should be able to click the "login" button on the SWA and then have access to the content behind the "Verify authenticated role" button. This can be useful if you want to restrict content to employees of your company only.
+> ***Goal:** After this section, the user should be able to click the "login" button on the SWA and then have access to the content behind the "Verify authenticated role" button. This can be useful if you want to restrict content to employees of your company only.*
 
 For the next two steps, we will follow along with Microsoft's own [tutorial](https://docs.microsoft.com/en-us/azure/static-web-apps/assign-roles-microsoft-graph).
 
@@ -256,7 +259,7 @@ If you visit our landing page and click the **Verify "authenticated" role** butt
   <img src="img/status_anonymous.png"/>
 </p>
 
-If you instead clicks the `Login`-button, you will be offered to login in via an AAD portal, and then redirected back to your page. You should now has access to the content placed behind the **Verify "authenticated" role** button, which should look like this:
+If you instead clicks the `Login`-button, you will be offered to login in via an AAD portal, and then redirected back to your page. You should now have access to the content placed behind the **Verify "authenticated" role** button, which should look like this:
 
 <p align="center" style="border:2px; border-style:solid; padding:1em">
   <img src="img/status_authenticated.png"/>
@@ -269,7 +272,7 @@ If you instead clicks the `Login`-button, you will be offered to login in via an
 - `AAD_CLIENT_SECRET`
 
 ## Step 5: Role management
-**GOAL:** This section will show how to obtain even more granular access control by assigning access roles to a subset of your organization.
+> ***Goal:** This section will show how to obtain even more granular access control by assigning access roles to a subset of your organization.*
 
 The current chapter is based on [this section](https://docs.microsoft.com/en-us/azure/static-web-apps/assign-roles-microsoft-graph#configure-active-directory-authentication) in Microsoft's own documentation.
 
@@ -299,6 +302,8 @@ const roleGroupMappings = {
 
 The *GetRoles* function is called whenever a user is successfully authenticated with Azure Active Directory. The function uses the user's access token to query their Active Directory group membership from Microsoft Graph. If the user is a member of any groups defined in the `roleGroupMappings` object, the corresponding custom roles are returned by the function.
 
+**Note:** The current function app only supports the assignment of _one_ AAD Group per role. If you would like to assign the same role to multiple groups, you must re-write the function a little. Feel free to open a PR if you decide to do so ;)
+
 In the above example, if a user is a member of the Active Directory group that you selected in the first step, they are granted the reader role.
 
 5. Select **Commit directly to the main branch** and select **Commit changes**.
@@ -313,6 +318,7 @@ In the above example, if a user is a member of the Active Directory group that y
 
 ## Step 6: Routing and role authentication
 See the [Configure Azure Static Web Apps](https://docs.microsoft.com/en-us/azure/static-web-apps/configuration) for more information about routing and setting the role requirements for the different part of the website. This is all configured in the `staticwebapp.config.json`-file. 
+
 **Note:** `routes.json`, which was previously used to configure routing, is deprecated.
 
 ## Architecture
