@@ -1,0 +1,69 @@
+{
+    "routes": [
+        {
+            "route": "/.auth/login/github",         // Disable Github login
+            "statusCode": "401"
+        },
+        {
+            "route": "/.auth/login/twitter",        // Disable Twitter login
+            "statusCode": "401"
+        },
+        {
+            "route": "/.auth/login/facebook",       // Disable Facebook login
+            "statusCode": "401"
+        },
+        {
+            "route": "/.auth/login/google",         // Disable Google login
+            "statusCode": "401"
+        },
+        {
+            "route": "/login",                      // Redirect /login to Azure AD login 
+            "redirect": "/.auth/login/aad"
+        },
+        {
+            "route": "/logout",                     // Redirect /logout to logout url
+            "redirect": "/.auth/logout"
+        },
+        {
+            "route": "/admin_role.html",
+            "allowedRoles": ["admin"]  // Limit /reader_role access to only users that have been assigned the role "admin"
+        },
+        {
+            "route": "/reader_role.html",
+            "allowedRoles": ["reader"]  // Limit /reader_role access to only users that have been assigned the role "reader"
+        },
+        {
+            "route": "/authenticated_role.html",
+            "allowedRoles": ["authenticated"]  // Limit /authenticated access to only users that have been authenticated (logged in with Azure AD)
+        },
+        {
+            "route": "/index.html",
+            "allowedRoles": ["anonymous"]  // Allow anonymous access to the top level url
+        }
+    ],
+    
+    "mimeTypes": {
+        ".json": "text/json",
+        ".css": "text/css",
+        ".js": "text/javascript"
+    },
+    
+    "auth": {
+        "rolesSource": "/api/GetRoles",
+        "identityProviders": {
+          "azureActiveDirectory": {
+            "userDetailsClaim": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
+            "registration": {
+              "openIdIssuer": "https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0",
+              "clientIdSettingName": "AAD_CLIENT_ID",
+              "clientSecretSettingName": "AAD_CLIENT_SECRET"
+            },
+            "login": {
+              "loginParameters": [
+                "resource=https://graph.microsoft.com"
+              ]
+            }
+          }
+        }
+    }
+}

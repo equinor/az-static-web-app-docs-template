@@ -1,14 +1,19 @@
 # Project information, do not edit
 site_name:        'Equinor'
-site_description: 'Az static web apps template'
+site_description: 'Azure static web apps template'
 site_author:      'Equinor'
-site_url:         'https://brave-tree-035ee0c03.azurestaticapps.net/'
+site_url:         'https://salmon-desert-02c2d9b03.1.azurestaticapps.net/equinor-example/'
 
 
 # Repository, edit to point to appropriate repo
 repo_name: 'equinor/az-static-web-app-docs-template'
 repo_url:  'https://github.com/equinor/az-static-web-app-docs-template'
-edit_uri:  'edit/master/docs/source/equinor-example'
+edit_uri:  'edit/main/docs/source/equinor-example'
+
+
+# Source and build destination
+docs_dir: 'source/equinor-example'
+site_dir: 'build/equinor-example'
 
 # Copyright, do not edit
 copyright: 'Copyright &copy; 2021 Equinor'
@@ -89,8 +94,8 @@ plugins:
 
 # Main navigation menu, edit to create your sub menu; retain main menu.
 nav:
-  - Getting started:
-    - Introduction:                       README.md
-    - Overview:
-      - Overview:                         get-started/overview.md
-      - Example:                          get-started/example.md
+  - Home:             README.md
+  - Chapter 1:
+    - Foobar:         chapter_1/foobar.md
+  - Chapter 2:
+    - Hello World:    chapter_2/hello_world.md

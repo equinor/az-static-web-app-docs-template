@@ -1,4 +1,0 @@
-config:
-  az-static-web-app-docs-template:github-access-token:
-    secure: AAABAP8xlGy+3YISXRkYvblwZNxJ9C9nsR+bH5yuAU/nSOXGxyZayiWD5HZ7UZ/2fXavOrwiLBxM/2fi6UjeNDyW/2kPIw7l
-  azure-native:location: westeurope
