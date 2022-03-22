@@ -8,7 +8,7 @@ This template repository is designed as a starting point for those who want to h
 5. Authentication using Azure Active Directory, allowing e.g. only members of your organization to access the documentation.
 6. Granular access control, where you can limit access for parts of the site to members granted specific roles.
 
-**Check out the live demo [here](https://salmon-desert-02c2d9b03.1.azurestaticapps.net)**.
+**Check out the live demo [here](https://ambitious-rock-029e94603.1.azurestaticapps.net)**.
 
 This tutorial is split into several sections, adding on more and more of the features mentioned above. If you or your organization do not require all these features, feel free to follow along for as long as it makes sense for you. **PS:** Several chapter ends with an **output**-sections, which lists all the keys, secrets, values etc. that you should have written down before proceeding to the next step.
 
