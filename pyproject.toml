@@ -18,7 +18,7 @@ sphinx = "^3.2.1"
 [tool.poetry.dev-dependencies]
 isort = "^5.10.1"
 black = "^21.12b0"
-mypy = "^0.910"
+mypy = "^0.941"
 flake8 = "^4.0.1"
 
 [build-system]
