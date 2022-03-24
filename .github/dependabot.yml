@@ -2,10 +2,8 @@
 
 version: 2
 updates:
-  - package-ecosystem: "pip"
-    directory: "/"
+  - package-ecosystem: "pip" # See documentation for possible values
+    directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
-    # Increase the version requirements for pip
-    # only when required
-    versioning-strategy: increase-if-necessary
+    versioning-strategy: increase
