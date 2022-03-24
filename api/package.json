@@ -7,7 +7,7 @@
       "test": "echo \"No tests yet...\""
     },
     "dependencies": {
-      "node-fetch": "^2.6.5"
+      "node-fetch": "^2.6.7"
     },
     "devDependencies": {}
   }
