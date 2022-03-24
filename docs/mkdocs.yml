@@ -99,3 +99,6 @@ nav:
     - Foobar:         chapter_1/foobar.md
   - Chapter 2:
     - Hello World:    chapter_2/hello_world.md
+  - Get Started:
+    - Overview:       get-started/overview.md
+    - Example:        get-started/example.md
