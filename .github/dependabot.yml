@@ -6,4 +6,10 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
+    versioning-strategy: auto  # supported strategies for pip is `lockfile-only` and `auto`
+    
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
     versioning-strategy: increase
