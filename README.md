@@ -69,6 +69,8 @@ This guide uses poetry to manage dependencies and virtual environments, but any 
 
 Feel free to click the "documentation examples" button and browse the two examples. The other buttons will not work properly yet.
 
+**Note:** The text printout at the bottom of the page is only for debugging purposes, which will be useful in the sections related to authentication and role management..
+
 ### Output
 - `deployment token`
 - `YOUR_SITE_URL`
@@ -87,10 +89,10 @@ To build the docs using `sphinx` and `mkdocs`, we need to add some custom build 
 3. Create a new repository secret by clicking "New repository secret" and use the following values:
     - Name: `"DEPLOYMENT_TOKEN"`
     - Value: `deployment token` (output from previous chapter)
-4. Locate your workflow files in `.\.github\workflow`. There should be three file there, where you should delete the first one:
+4. Locate your workflow files in `.\.github\workflow`. There should be three files there, where you should delete the first one:
     1. `azure-static-web-apps-<YOUR_SITE_URL>.yml`: *Delete this and commit changes. This file was created when you created the SWA*
     2. `deploy-site.yml`: *This will replace the file above*
-    3. `lint-and-format.yml`: *This file is optional, feel freed to delete it. It runs some linting and syntax checks on your code*
+    3. `lint-and-format.yml`: *This file is optional, feel free to delete it. It runs some linting and syntax checks on your code*
 
 ### Under-the-hood: What just happened?
 The Github workflow committed by the Static Web app only contains the actions necessary for deploying the already built files that the template repo provided. The `deploy-site.yml` file contains additional steps that enable automatic building of the documentation using both MkDocs and Sphinx (in production, you would probably only use one).
@@ -276,7 +278,7 @@ If you instead clicks the `Login`-button, you will be offered to login in via an
 
 The current chapter is based on [this section](https://docs.microsoft.com/en-us/azure/static-web-apps/assign-roles-microsoft-graph#configure-active-directory-authentication) in Microsoft's own documentation.
 
-In the previous chapter, we required that a user logged in before having access to the content behind the **Verify "authenticated" role** button. In this chapter, we will generate a custom "reader" role that is required to read the content behind the **Verify "reader" role** button. If a user is not already given the "reader" role, they will still not have access to the content behind the **Verify "reader" role** button, and will be met with the following page:
+In the previous chapter, we enforced that users had to log in to access the content behind the **Verify "authenticated" role** button. In this chapter, we will create a custom "reader" role that we can assign to users who should be able access the content behind the **Verify "reader" role** button. If a user is not already given the "reader" role, they will still not have access to the content behind the **Verify "reader" role** button, and will be met with the following page:
 
 <p align="center" style="border:2px; border-style:solid; padding:1em">
   <img src="img/status_authenticated_not_reader.png"/>
@@ -335,7 +337,7 @@ Project
 |           lint-and-format.yml             - Github Action workflow for linting and validating syntax
 |
 └───api
-|   |   (...)                               - Several config files for the serveless function powered by Azure Function)
+|   |   (...)                               - Several config files for the serverless function powered by Azure Function)
 |   └───GetRoles
 |       └───function.json                   - Azure Function config
 |       └───index.js                        - Serverless Function that assigns custom roles to users
