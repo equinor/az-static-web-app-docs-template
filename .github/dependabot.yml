@@ -1,0 +1,11 @@
+# Source: https://stackoverflow.com/questions/60201543/dependabot-only-updates-lock-file
+
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    # Increase the version requirements for pip
+    # only when required
+    versioning-strategy: increase-if-necessary
