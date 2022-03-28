@@ -69,7 +69,7 @@ This guide uses poetry to manage dependencies and virtual environments, but any 
 
 Feel free to click the "documentation examples" button and browse the two examples. The other buttons will not work properly yet.
 
-**Note:** The text printout at the bottom of the page is only for debugging purposes, which will be useful in the sections related to authentication and role management..
+> **Note:** The text printout at the bottom of the page is only for debugging purposes, which will be useful in the sections related to authentication and role management..
 
 ### Output
 - `deployment token`
@@ -129,14 +129,15 @@ Ok, the time has come to decide which doc-builder you want to use. For the next 
 
 Since this template repo uses _two_ documentation builders, we have two sub-folder in the `docs`-directory. We will now only be using _one_ builder, and should therefor restructure our repo to a more common folder structure:
 1. Create two empty folders in the repo's top directory called `docs` and `build`.
-  - **Note:** Git is often reluctant to stage empty folders. You might want to add an empty file if you are unable to stage the changes.
+ > **Note:** Git is often reluctant to stage empty folders. You might want to add an empty file if you are unable to stage the changes.
 2. If you want to use the Equinor theme, copy the `docs\source\equinor-example\stylesheets`-folder into your newly created `docs`-folder.
 3. Move the `mkdocs.yml`-file into the top folder. Open it add change the following two attributes:
   - `docs_dir: 'docs'`
   - `site_dir: 'build'`
   
-  **Note:** You will have to update your navigation bar based on the documents and file structure you want. See the [MkDocs documantetion](https://www.mkdocs.org/getting-started/) for more information.
-  **Note:** You might want to change other attributes in this file to better match your GitHub and SWA information.
+  > **Note:** You will have to update your navigation bar based on the documents and file structure you want. See the [MkDocs documantetion](https://www.mkdocs.org/getting-started/) for more information.
+  
+  > **Note:** You might want to change other attributes in this file to better match your GitHub and SWA information.
 
 4. Since you will only be using _one_ doc-builder, please apply the following changes:
     1. In the `deploy-site.yml` file, remove the action related to doc-builder that you _will not_ be using. If you e.g. want to use MkDocs, remove the Sphinx-action.
@@ -156,7 +157,7 @@ MkDocs only supports markdown-files. An example is located in the `.\docs\source
 
 **NB!** The `mkdocs.yml` file would normally be placed at the top folder for the documentation files, but is currently placed on level above in this demo to make it easier to work with two documentation frameworks.
 
-**Note:** In the `mkdocs.yml`-file, please update the keys `site_url`, `repo_name` and `repo_url` to match your own project. The builder inserts these links into your page (in the logo and the edit-button)
+> **Note:** In the `mkdocs.yml`-file, please update the keys `site_url`, `repo_name` and `repo_url` to match your own project. The builder inserts these links into your page (in the logo and the edit-button)
 
 ### (Optional): Building the documentation manually
 1. [Install poetry](https://python-poetry.org/docs/) and then run `poetry install` in the project folder OR use any package manager of your choice and ensure that you have `sphinx` and/or `mkdocs` installed.<br>
@@ -225,7 +226,7 @@ This configuration is required by Static Web Apps to authenticate your users.
 6. Enter a name for the client secret. For example, **MyStaticWebApp**.
 7. Choose a duration for the Expires field (default is 6 months).
 
-**Note:** *You must rotate the secret before the expiration date by generating a new secret and updating your app with its value.*
+> **Note:** *You must rotate the secret before the expiration date by generating a new secret and updating your app with its value.*
 
 8. Select **Add**.
 9. Write down the **Value** of the client secret you created, which we will refer to as your **client secret value**. You'll need this value to configure AAD authentication in your static web app.
@@ -265,7 +266,7 @@ The current chapter is based on [this section](https://docs.microsoft.com/en-us/
 },
 ```
 
-**Note:** To obtain an access token for Microsoft Graph, the `loginParameters` field must be configured with `resource=https://graph.microsoft.com`.
+> **Note:** To obtain an access token for Microsoft Graph, the `loginParameters` field must be configured with `resource=https://graph.microsoft.com`.
 
 2. Select the **Edit** button to update the file.
 3. Update the *openIdIssuer* value of `https://login.microsoftonline.com/<YOUR_AAD_TENANT_ID>` by replacing `<YOUR_AAD_TENANT_ID>` with the **directory (tenant) ID** of your AAD that you wrote down earlier.
@@ -294,9 +295,9 @@ If you instead clicks the `Login`-button, you will be offered to login in via an
   <img src="img/status_authenticated.png"/>
 </p>
 
-**Note:** Your organization might have special rules set up to manage who get's access. If you are not able to complete the login, you can try to first elevate your privileges in Azure's **Privileged Identity Management** and the retry logging in.
+> **Note:** Your organization might have special rules set up to manage who get's access. If you are not able to complete the login, you can try to first elevate your privileges in Azure's **Privileged Identity Management** and the retry logging in.
 
-**Note:** Some organizations have extra safety steps in place in order to successfully set up authentication. This might include:
+> **Note:** Some organizations have extra safety steps in place in order to successfully set up authentication. This might include:
 1. Having to add two or more owners to the App Registration
 2. The API permissions of your App Registration might require you to forward a concent to an administrator to be evaluated, with a justification for requesting this app. These requests will typically go into an admin consent workflow. When accepted, users should no longer be prompted with this message.
 #### Output
@@ -334,7 +335,7 @@ const roleGroupMappings = {
 
 The *GetRoles* function is called whenever a user is successfully authenticated with Azure Active Directory. The function uses the user's access token to query their Active Directory group membership from Microsoft Graph. If the user is a member of any groups defined in the `roleGroupMappings` object, the corresponding custom roles are returned by the function.
 
-**Note:** The current function app only supports the assignment of _one_ AAD Group per role. If you would like to assign the same role to multiple groups, you must re-write the function a little. Feel free to open a PR if you decide to do so ;)
+> **Note:** The current function app only supports the assignment of _one_ AAD Group per role. If you would like to assign the same role to multiple groups, you must re-write the function a little. Feel free to open a PR if you decide to do so ;)
 
 In the above example, if a user is a member of the Active Directory group that you selected in the first step, they are granted the reader role.
 
@@ -351,7 +352,7 @@ In the above example, if a user is a member of the Active Directory group that y
 ## Step 6: Routing and role authentication
 See the [Configure Azure Static Web Apps](https://docs.microsoft.com/en-us/azure/static-web-apps/configuration) for more information about routing and setting the role requirements for the different part of the website. This is all configured in the `staticwebapp.config.json`-file.
 
-**Note:** `routes.json`, which was previously used to configure routing, is deprecated.
+> **Note:** `routes.json`, which was previously used to configure routing, is deprecated.
 
 ### Hide the complete web app behind a "login wall"
 If you want to require that users log in before even landing on your page, consider adding e.g. the following routes rule **staticwebapp.config.json**
