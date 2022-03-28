@@ -10,7 +10,7 @@ This template repository is designed as a starting point for those who want to h
 
 **Check out the live demo [here](https://ambitious-rock-029e94603.1.azurestaticapps.net)**.
 
-This tutorial is split into several sections, adding on more and more of the features mentioned above. If you or your organization do not require all these features, feel free to follow along for as long as it makes sense for you. **PS:** Several chapter ends with an **output**-sections, which lists all the keys, secrets, values etc. that you should have written down before proceeding to the next step.
+The tutorial is split into several sections, adding on more and more of the features mentioned above. If you or your organization do not require all these features, feel free to follow along for as long as it makes sense for you. **PS:** Several chapter ends with an **output**-sections, which lists all the keys, secrets, values etc. that you should have written down before proceeding to the next step.
 
 ## Abbreviation 
 | Abbreviation | Description            |
@@ -78,11 +78,13 @@ Feel free to click the "documentation examples" button and browse the two exampl
 ## Step 3: Automate the compilation of docs
 > ***Goal:** After this section, the documentation examples will be built and deployed, making them visible on your SWA. Further, a Github Action workflow will ensure that the documentation automatically re-builds and re-deploys itself when new changes are committed to the branch.*
 
+**NB!** If you are working on integrating this template into an existing repository, follow along until you have completed the sub-chapter "Under-the-hood: What just happened?", then go to the chapter [Implement this into an existing repo](#implement-this-into-an-existing-repo).
+
 SWAs does not support building non-Javascript projects and therefore you have to compile the docs before it gets deployed. Thankfully, [Github Actions](https://github.com/features/actions) allows us to build and compile the HTML files as part of the action that deploys them to the web app. Doing it this way allows us to delete the build files, so that they don't clutter our repository. Neat! Furthermore, it ensures that we do not have to run any manual steps to update the documentation. Double-neat! This also means that we can use almost any type of documentation compiler as long as it is possible to install on the Github Action build server and it can compile to HTML. Triple-neat! For this repository, `sphinx` and `mkdocs` is used, but it can modified to work with your preferred build tool.
 
 To build the docs using `sphinx` and `mkdocs`, we need to add some custom build steps to the workflow file that the SWA created during its setup. Rather than editing the newly created workflow file, we can use the file that comes with this repo.
 
-**NB!** In the next steps we will delete the github action that was created by our SWA, and replace it with the `deploy-site.yml` that already exist in the template repo. However, this will break the link in your SWA's overview page which give a link to the github action it created. Currently, there is no way of updating this link. It will not affect operation, but if you would like to keep this link intact, you should copy the content from `deploy-site.yml` into the newly created yml-file, and delete the `deploy-site.yml`-fil instead.
+**NB!** In the next steps we will delete the github action that was created by our SWA, and replace it with the `deploy-site.yml` that already exist in the template repo. However, this will break the link in your SWA's overview page which link to the github action it created itself. Currently, there is no way of updating this link. It will not affect operation, but if you would like to keep this link intact, you should copy the content from `deploy-site.yml` into the newly created yml-file, and delete the `deploy-site.yml`-file instead.
 
 1. Navigate to your GitHub Repo > Settings > Secrets > Actions > Repository secrets.
 2. There should only be one secret called `AZURE_STATIC_WEB_APPS_API_TOKEN_<URL-name>` under "Actions secrets". Delete this secret by pressing "Remove".
@@ -95,7 +97,7 @@ To build the docs using `sphinx` and `mkdocs`, we need to add some custom build 
     3. `lint-and-format.yml`: *This file is optional, feel free to delete it. It runs some linting and syntax checks on your code*
 
 ### Under-the-hood: What just happened?
-The Github workflow committed by the Static Web app only contains the actions necessary for deploying the already built files that the template repo provided. The `deploy-site.yml` file contains additional steps that enable automatic building of the documentation using both MkDocs and Sphinx (in production, you would probably only use one).
+The Github workflow committed by the SWA only contains the actions necessary for deploying the already built files that the template repo provided. The `deploy-site.yml` file contains additional steps that enable automatic building of the documentation using both MkDocs and Sphinx (in production, you would probably only use one).
 
 ```yaml
 - name: Set up Python 3.8
@@ -319,12 +321,52 @@ In the above example, if a user is a member of the Active Directory group that y
 </p>
 
 ## Step 6: Routing and role authentication
-See the [Configure Azure Static Web Apps](https://docs.microsoft.com/en-us/azure/static-web-apps/configuration) for more information about routing and setting the role requirements for the different part of the website. This is all configured in the `staticwebapp.config.json`-file. 
+See the [Configure Azure Static Web Apps](https://docs.microsoft.com/en-us/azure/static-web-apps/configuration) for more information about routing and setting the role requirements for the different part of the website. This is all configured in the `staticwebapp.config.json`-file.
 
 **Note:** `routes.json`, which was previously used to configure routing, is deprecated.
 
+### Hide the complete web app behind a "login wall"
+If you want to require that users log in before even landing on your page, consider adding e.g. the following routes rule **staticwebapp.config.json**
+```json
+{
+    "route": "/*",
+    "allowedRoles": [
+        "authenticated"
+    ]
+}
+```
+This will require all users to have the role "authenticated" (i.e. be logged in), and will by default great them with 401: Unauthorized. To handle this, add the following response override to the same config file:
+```json
+"responseOverrides": {
+        "401": {
+            "redirect": "/.auth/login/aad?post_login_redirect_uri=.referrer",
+            "statusCode": 302
+        },
+```
+Which automatically will redirect all unauthorized users to the login portal.
+
 ## Architecture
+A graphical overview of where the different keys, secrets, IDs, etc. goes.
 ![Architecture](img/architecture.svg)
+
+
+## Implement this into an existing repo
+To implement automatic doc-building into your own, existing repository, follow the original tutorial until the "Under-the-hood: What just happened?" [Step 3: Automate the compilation of docs](#Step-3:-Automate-the-compilation-of-docs), then return to this section.
+
+Ok, the time has come to decide which doc-builder you want to use. For the next few steps, we will be using MkDocs. Other builders will have slightly different configurations that you will have to read up on yourselves.
+
+Since this template repo uses _two_ documentation builders, we have two sub-folder in the `docs`-directory. We will now only be using _one_ builder, and should therefor restructure our repo to a more common folder structure:
+1. Create two empty folders in the repo's top directory called `docs` and `build`.
+  - **Note:** Git is often reluctant to stage empty folders. You might want to add an empty file if you are unable to stage the changes.
+2. Move the `mkdocs.yml`-file into the top folder. Open it add change the following two attributes:
+  - `docs_dir: 'docs'`
+  - `site_dir: 'build'`
+  **Note:** You might want to change other attributes in this file to better match your GitHub and SWA information.
+3. Since you will only be using _one_ doc-builder, please apply the following changes:
+    1. In the `deploy-site.yml` file, remove the action related to doc-builder that you _will not_ be using. If you e.g. want to use MkDocs, remove the Sphinx-action.
+    2. If you are using MkDocs-case: since we moved the `mkdocs.yml`-file into the root folder, we no longer have to provide a specific path. Therefor, modify the action as follows: `run: poetry run mkdocs build`
+    3. If you are using Poetry, navigate to the `pyproject.toml` file and remove the dependencies related to the documentation builder that you are no longer using (in our case `sphinx`).
+
 
 ## File content explanation
 Here is an description of the main files and folders in this project:
