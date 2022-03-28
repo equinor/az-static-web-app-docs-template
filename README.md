@@ -361,11 +361,13 @@ Since this template repo uses _two_ documentation builders, we have two sub-fold
 2. Move the `mkdocs.yml`-file into the top folder. Open it add change the following two attributes:
   - `docs_dir: 'docs'`
   - `site_dir: 'build'`
+  
   **Note:** You might want to change other attributes in this file to better match your GitHub and SWA information.
+
 3. Since you will only be using _one_ doc-builder, please apply the following changes:
     1. In the `deploy-site.yml` file, remove the action related to doc-builder that you _will not_ be using. If you e.g. want to use MkDocs, remove the Sphinx-action.
     2. If you are using MkDocs-case: since we moved the `mkdocs.yml`-file into the root folder, we no longer have to provide a specific path. Therefor, modify the action as follows: `run: poetry run mkdocs build`
-    3. If you are using Poetry, navigate to the `pyproject.toml` file and remove the dependencies related to the documentation builder that you are no longer using (in our case `sphinx`).
+    3. If you are using Poetry, navigate to the `pyproject.toml` file and remove the dependencies related to the documentation builder that you are no longer using (in our case `sphinx` and `myst-parser`).
 
 
 ## File content explanation
