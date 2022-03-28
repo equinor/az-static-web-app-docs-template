@@ -122,6 +122,31 @@ The Github workflow committed by the SWA only contains the actions necessary for
 
 Rather than modifying the workflow-file created by the SWA, we just renamed the github secret token to `DEPLOYMENT_TOKEN` (which is what the `deploy-site.yml`-file expects) and deleted the file created by the SWA. By modifying the secret *before* deleting the file, we ensured that the workflow was not triggered by a new commit before the renaming of the secret was handled.
 
+### (Optional) Implement this solution into an existing repo
+*To implement automatic doc-building into your own, existing repository, follow the next steps*
+
+Ok, the time has come to decide which doc-builder you want to use. For the next few steps, we will be using MkDocs. Other builders will have slightly different configurations that you will have to read up on yourselves.
+
+Since this template repo uses _two_ documentation builders, we have two sub-folder in the `docs`-directory. We will now only be using _one_ builder, and should therefor restructure our repo to a more common folder structure:
+1. Create two empty folders in the repo's top directory called `docs` and `build`.
+  - **Note:** Git is often reluctant to stage empty folders. You might want to add an empty file if you are unable to stage the changes.
+2. If you want to use the Equinor theme, copy the `docs\source\equinor-example\stylesheets`-folder into your newly created `docs`-folder.
+3. Move the `mkdocs.yml`-file into the top folder. Open it add change the following two attributes:
+  - `docs_dir: 'docs'`
+  - `site_dir: 'build'`
+  
+  **Note:** You will have to update your navigation bar based on the documents and file structure you want. See the [MkDocs documantetion](https://www.mkdocs.org/getting-started/) for more information.
+  **Note:** You might want to change other attributes in this file to better match your GitHub and SWA information.
+
+4. Since you will only be using _one_ doc-builder, please apply the following changes:
+    1. In the `deploy-site.yml` file, remove the action related to doc-builder that you _will not_ be using. If you e.g. want to use MkDocs, remove the Sphinx-action.
+    2. If you are using MkDocs-case: since we moved the `mkdocs.yml`-file into the root folder, we no longer have to provide a specific path. Therefor, modify the action as follows: `run: poetry run mkdocs build`
+    3. If you are using Poetry, navigate to the `pyproject.toml` file and remove the dependencies related to the documentation builder that you are no longer using (in our case `sphinx` and `myst-parser`).
+    4. Update the `output_folder` in the **Build And Deploy**-step to `"/build"`
+
+You may now continue on the rest of the original tutorial.
+
+
 ### (Optional): Editing the documentation
 **Sphinx:**<br>
 Sphinx expects `.rts`-files as default, but can be extended to support a range of different file formats (like e.g. markdown). Locate the example in the `.\docs\sources\sphinx-example`-folder. To add a new pages, create the file and add it to the `index.rst`-file. Then re-build the documentation page by either pushing a new commit or by building it manually (see the next chapter).
@@ -271,6 +296,9 @@ If you instead clicks the `Login`-button, you will be offered to login in via an
 
 **Note:** Your organization might have special rules set up to manage who get's access. If you are not able to complete the login, you can try to first elevate your privileges in Azure's **Privileged Identity Management** and the retry logging in.
 
+**Note:** Some organizations have extra safety steps in place in order to successfully set up authentication. This might include:
+1. Having to add two or more owners to the App Registration
+2. The API permissions of your App Registration might require you to forward a concent to an administrator to be evaluated, with a justification for requesting this app. These requests will typically go into an admin consent workflow. When accepted, users should no longer be prompted with this message.
 #### Output
 - `AAD_CLIENT_ID`
 - `AAD_CLIENT_SECRET`
@@ -348,26 +376,6 @@ Which automatically will redirect all unauthorized users to the login portal.
 ## Architecture
 A graphical overview of where the different keys, secrets, IDs, etc. goes.
 ![Architecture](img/architecture.svg)
-
-
-## Implement this into an existing repo
-To implement automatic doc-building into your own, existing repository, follow the original tutorial until the "Under-the-hood: What just happened?" [Step 3: Automate the compilation of docs](#Step-3:-Automate-the-compilation-of-docs), then return to this section.
-
-Ok, the time has come to decide which doc-builder you want to use. For the next few steps, we will be using MkDocs. Other builders will have slightly different configurations that you will have to read up on yourselves.
-
-Since this template repo uses _two_ documentation builders, we have two sub-folder in the `docs`-directory. We will now only be using _one_ builder, and should therefor restructure our repo to a more common folder structure:
-1. Create two empty folders in the repo's top directory called `docs` and `build`.
-  - **Note:** Git is often reluctant to stage empty folders. You might want to add an empty file if you are unable to stage the changes.
-2. Move the `mkdocs.yml`-file into the top folder. Open it add change the following two attributes:
-  - `docs_dir: 'docs'`
-  - `site_dir: 'build'`
-  
-  **Note:** You might want to change other attributes in this file to better match your GitHub and SWA information.
-
-3. Since you will only be using _one_ doc-builder, please apply the following changes:
-    1. In the `deploy-site.yml` file, remove the action related to doc-builder that you _will not_ be using. If you e.g. want to use MkDocs, remove the Sphinx-action.
-    2. If you are using MkDocs-case: since we moved the `mkdocs.yml`-file into the root folder, we no longer have to provide a specific path. Therefor, modify the action as follows: `run: poetry run mkdocs build`
-    3. If you are using Poetry, navigate to the `pyproject.toml` file and remove the dependencies related to the documentation builder that you are no longer using (in our case `sphinx` and `myst-parser`).
 
 
 ## File content explanation
