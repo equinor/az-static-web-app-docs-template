@@ -42,6 +42,14 @@
         }
     ],
     
+    // Uncomment when done playing with roles on login page, so unauthenticated users are logged in directly.
+    // "responseOverrides": {
+    //     "401": {
+    //         "redirect": "/.auth/login/aad?post_login_redirect_uri=.referrer",
+    //         "statusCode": 302
+    //     }
+    // },
+    
     "mimeTypes": {
         ".json": "text/json",
         ".css": "text/css",
