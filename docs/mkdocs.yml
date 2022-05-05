@@ -40,7 +40,7 @@ extra:
   social:
     - icon:  fontawesome/brands/github
       link:  https://github.com/equinor/az-static-web-app-docs-template
-    - icon:  fontawesome/brands/slack-hash
+    - icon:  fontawesome/brands/slack
       link:  https://equinor.slack.com
 
 # Extensions, do not edit
