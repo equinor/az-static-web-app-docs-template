@@ -78,7 +78,7 @@ Feel free to click the "documentation examples" button and browse the two exampl
 ## Step 3: Automate the compilation of docs
 > ***Goal:** After this section, the documentation examples will be built and deployed, making them visible on your SWA. Further, a Github Action workflow will ensure that the documentation automatically re-builds and re-deploys itself when new changes are committed to the branch.*
 
-**NB!** If you are working on integrating this template into an existing repository, follow along until you have completed the sub-chapter "Under-the-hood: What just happened?", then go to the chapter [Implement this into an existing repo](#implement-this-into-an-existing-repo).
+**NB!** If you are working on integrating this template into an existing repository, follow along until you have completed the sub-chapter "Under-the-hood: What just happened?", then go to the chapter [(Optional) Implement this solution into an existing repo](#(Optional) Implement this solution into an existing repo).
 
 SWAs does not support building non-Javascript projects and therefore you have to compile the docs before it gets deployed. Thankfully, [Github Actions](https://github.com/features/actions) allows us to build and compile the HTML files as part of the action that deploys them to the web app. Doing it this way allows us to delete the build files, so that they don't clutter our repository. Neat! Furthermore, it ensures that we do not have to run any manual steps to update the documentation. Double-neat! This also means that we can use almost any type of documentation compiler as long as it is possible to install on the Github Action build server and it can compile to HTML. Triple-neat! For this repository, `sphinx` and `mkdocs` is used, but it can modified to work with your preferred build tool.
 
@@ -121,6 +121,7 @@ The Github workflow committed by the SWA only contains the actions necessary for
 ```
 
 Rather than modifying the workflow-file created by the SWA, we just renamed the github secret token to `DEPLOYMENT_TOKEN` (which is what the `deploy-site.yml`-file expects) and deleted the file created by the SWA. By modifying the secret *before* deleting the file, we ensured that the workflow was not triggered by a new commit before the renaming of the secret was handled.
+
 
 ### (Optional) Implement this solution into an existing repo
 *To implement automatic doc-building into your own, existing repository, follow the next steps*
