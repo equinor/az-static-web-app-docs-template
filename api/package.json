@@ -3,11 +3,11 @@
     "version": "1.0.0",
     "description": "",
     "scripts": {
-      "start": "func start",
+      "start": "func start --javascript",
       "test": "echo \"No tests yet...\""
     },
     "dependencies": {
-      "node-fetch": "^2.6.7"
+      "applicationinsights": "2.3.2"
     },
     "devDependencies": {}
   }
