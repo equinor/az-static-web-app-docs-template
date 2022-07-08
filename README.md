@@ -144,7 +144,7 @@ Since this template repo uses _two_ documentation builders, we have two sub-fold
     1. In the `deploy-site.yml` file, remove the action related to doc-builder that you _will not_ be using. If you e.g. want to use MkDocs, remove the Sphinx-action.
     2. If you are using MkDocs-case: since we moved the `mkdocs.yml`-file into the root folder, we no longer have to provide a specific path. Therefor, modify the action as follows: `run: poetry run mkdocs build`
     3. If you are using Poetry, navigate to the `pyproject.toml` file and remove the dependencies related to the documentation builder that you are no longer using (in our case `sphinx` and `myst-parser`).
-    4. Update the `output_folder` in the **Build And Deploy**-step to `"/build"`
+    4. Update the `output_location` in the **Build And Deploy**-step to `"/build"`
 
 You may now continue on the rest of the original tutorial.
 
