@@ -1,4 +1,4 @@
-# Host documentation with granular access control using Azure Static Web App
+# Host documentation with granular access control using Azure Static Web App 
 This template repository is designed as a starting point for those who want to host their documentation in a way that provides:
 
 1. Fast, simple and downright gorgeous static web sites using documentation builders like MkDocs, Sphinx, or the static site generator of your choice.
