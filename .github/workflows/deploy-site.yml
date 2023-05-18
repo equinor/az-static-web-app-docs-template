@@ -18,26 +18,34 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: true
-      
+
       - name: Set up Python 3.8
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
 
-      - name: Build install poetry
-        run: |
-          curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
-          echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+      - name: Setup Poetry
+        uses: pronovic/setup-poetry@v1
+        with:
+          version: "1.2.0"
+          plugins: "poetry-plugin-export@==1.1.2"
+          cache-venv: "true"
+          cache-poetry: "true"
+
+      # - name: Build install poetry
+      #   run: |
+      #     curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+      #     echo "$HOME/.poetry/bin" >> $GITHUB_PATH
 
       - name: Install Poetry
         run: poetry install
-          
+
       - name: Build docs with Sphinx
         run: poetry run sphinx-build -b html docs/source/sphinx-example docs/build/sphinx-example
 
       - name: Build docs with MkDocs
         run: poetry run mkdocs build --config-file docs/mkdocs.yml
-          
+
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
