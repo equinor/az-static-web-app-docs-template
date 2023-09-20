@@ -37,7 +37,8 @@ This guide uses poetry to manage dependencies and virtual environments, but any 
 
 
 3. Connect to GitHub (image below):
-    1. After completing the GitHub login, use the "organization", "repository" and "branch" drop-down menus to select the repository you forked. In this tutorial, we connect the wep app to the `main`-branch. If you want to keep a separate branch for built documentation, feel free to do so.
+    1. After completing the GitHub login, use the "organization", "repository" and "branch" drop-down menus to select the repository you forked. In this tutorial, we connect the wep app to the `main`-branch. If you want to keep a separate branch for built documentation, feel free to do so.  
+    **Important note:** Do not connect to this template repository directly. Connect to your own fork of this template.
     2. Select "Custom" in the "Build Presets"-dropdown and fill in the following fields:
         - App location: `/`
         - Api location: `/api`
