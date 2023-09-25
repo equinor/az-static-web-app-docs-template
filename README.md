@@ -101,10 +101,10 @@ To build the docs using `sphinx` and `mkdocs`, we need to add some custom build 
 The Github workflow committed by the SWA only contains the actions necessary for deploying the already built files that the template repo provided. The `deploy-site.yml` file contains additional steps that enable automatic building of the documentation using both MkDocs and Sphinx (in production, you would probably only use one).
 
 ```yaml
-- name: Set up Python 3.8
+- name: Set up Python 3.10
   uses: actions/setup-python@v2
   with:
-    python-version: 3.8
+    python-version: 3.10.8
 
 - name: Build install poetry
   run: |
@@ -165,7 +165,7 @@ MkDocs only supports markdown-files. An example is located in the `.\docs\source
 1. [Install poetry](https://python-poetry.org/docs/) and then run `poetry install` in the project folder OR use any package manager of your choice and ensure that you have `sphinx` and/or `mkdocs` installed.<br>
 **NB!** If you experience trouble installing poetry (especially if you're an Equinor employee on a Windows), try the following:
 
-    1. Don't install Python using the Windows Store. Instead, download and install [Python 3.8](https://www.python.org/downloads/release/python-380/) (others have experienced issues with the MS Store version, see [here](https://github.com/python-poetry/poetry/issues/1895) and [here](https://github.com/python-poetry/poetry/issues/1587)).
+    1. Don't install Python using the Windows Store. Instead, download and install [Python 3.10](https://www.python.org/downloads/release/python-3108/) (others have experienced issues with the MS Store version, see [here](https://github.com/python-poetry/poetry/issues/1895) and [here](https://github.com/python-poetry/poetry/issues/1587)).
 
     2. As an Equinor employee, following the [documentation](https://python-poetry.org/docs/) might result in a socket-error: "socket.gaierror: [Errno 11001] getaddrinfo failed". This is probably a proxy-issue that occurs when you are on the work-network. Try repeating the installation step from a different network (e.g. hotspotting from your phone), or modify the relevant proxies.
 
