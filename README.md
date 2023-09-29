@@ -1,3 +1,7 @@
+**Update 2023-09-29**
+
+**The team can no longer keep maintaining this and we have not been able to find anyone to take over. Therefore, we have decided to archive the repo. Please reach out to us at <eurekaml@equinor.no> if you are interested in taking over responsibility.**
+
 # Host documentation with granular access control using Azure Static Web App 
 This template repository is designed as a starting point for those who want to host their documentation in a way that provides:
 
