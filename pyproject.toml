@@ -12,7 +12,7 @@ mkdocs-material = "^9.4.1"
 mkdocs-git-revision-date-plugin = "^0.3.1"
 mkdocs-macros-plugin = "^1.0.4"
 mkdocs-mermaid2-plugin = "^1.1.0"
-myst-parser = "^0.18.0"
+myst-parser = "^1.0.0"
 sphinx = "^5.3.0"
 
 [tool.poetry.dev-dependencies]
